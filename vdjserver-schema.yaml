@@ -11,6 +11,49 @@ Info:
     license:
         name: Creative Commons Attribution 4.0 International
         url: https://creativecommons.org/licenses/by/4.0/
+        copyright: UT Southwestern Medical Center
+
+BasicResponse:
+  description: Basic response object
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    status:
+      type: boolean
+    message:
+      type: string
+
+InfoObject:
+  description: Provides information about the API service and/or response
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    title:
+      type: string
+    version:
+      type: string
+    description:
+      type: string
+    contact: 
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        email:
+          type: string
+    license:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        copyright:
+          type: string
 
 Recaptcha:
   description: Google recaptcha response.
@@ -62,147 +105,179 @@ UserAccountCreation:
     - $ref: '#/components/schemas/UserAccount'
     - $ref: '#/components/schemas/Recaptcha'
 
-    MetadataFile:
-      description: AIRR metadata file.
-      discriminator:
-        propertyName: VDJServer
-      type: object
-      properties:
-        Info:
-          $ref: '#/components/schemas/Info'
-        Repertoire:
-          type: array
-          items:
-            $ref: '#/components/schemas/Repertoire'
+MetadataFile:
+  description: AIRR metadata file.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    Info:
+      $ref: '#/components/schemas/Info'
+    Repertoire:
+      type: array
+      items:
+        $ref: '#/components/schemas/Repertoire'
 
-    Project:
-      description: VDJServer project which is an extension of the AIRR Study object.
-      discriminator:
-        propertyName: VDJServer
-      allOf:
-        - $ref: '#/components/schemas/Study'
-        - type: object
-          properties:
-            owner:
-              description: Username that owns the project.
-              type: string
-
-    ProjectMetadata:
-      description: Tapis metadata object for a project.
-      discriminator:
-        propertyName: VDJServer
-      type: object
-      properties:
-        uuid:
-          type: string
-          description: metadata identifier
-        value:
-          $ref: '#/components/schemas/Project'
-
-    ProjectPermission:
-      description: Permissions request for project
-      discriminator:
-        propertyName: VDJServer
-      type: object
-      required:
-        - project_uuid
-      properties:
-        project_uuid:
-          description: project related to the permissions.
-          type: string
-
-    UserPermission:
-      description: Permissions request for user
-      discriminator:
-        propertyName: VDJServer
-      required:
-        - username
-      allOf:
-        - $ref: '#/components/schemas/ProjectPermission'
-        - type: object
-          properties:
-            username:
-              description: user to apply permissions
-              type: string
-
-    MetadataPermission:
-      description: Permissions request for project metadata object
-      discriminator:
-        propertyName: VDJServer
-      required:
-        - metadata_uuid
-      allOf:
-        - $ref: '#/components/schemas/ProjectPermission'
-        - type: object
-          properties:
-            metadata_uuid:
-              description: metadata object to apply permissions
-              type: string
-
-    Feedback:
-      description: Feedback message.
-      discriminator:
-        propertyName: VDJServer
-      type: object
-      properties:
-        feedback:
-          type: string
-          description: message content
-
-    PublicFeedback:
-      description: Public feedback message.
-      discriminator:
-        propertyName: VDJServer
-      allOf:
-        - $ref: '#/components/schemas/Feedback'
-        - $ref: '#/components/schemas/Recaptcha'
-        - type: object
-          properties:
-            email:
-              description: User email.
-              type: string
-
-    ErrorTelemetry:
-      description: Error telemetry.
-      discriminator:
-        propertyName: VDJServer
-      type: object
-      properties:
-        project_uuid:
-          type: string
-        job_uuid:
-          type: string
-        filename:
-          type: string
-        method:
-          type: string
-        error:
-          type: string
-        view:
-          type: string
-        browser:
-          type: string
-        os:
-          type: string
-
-    ADCRepositorySet:
-      description: Set of ADC repositories.
-      discriminator:
-        propertyName: VDJServer
-      type: object
-      required:
-        - adc
-      properties:
-        adc:
-          type: object
-
-    Test:
-      description: Test object
-      discriminator:
-        propertyName: VDJServer
-      type: object
+Project:
+  description: VDJServer project which is an extension of the AIRR Study object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: '#/components/schemas/Study'
+    - type: object
       properties:
         owner:
           description: Username that owns the project.
           type: string
-          nullable: true
+
+ProjectMetadata:
+  description: Tapis metadata object for a project.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    uuid:
+      type: string
+      description: metadata identifier
+    value:
+      $ref: '#/components/schemas/Project'
+
+ProjectPermission:
+  description: Permissions request for project
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - project_uuid
+  properties:
+    project_uuid:
+      description: project related to the permissions.
+      type: string
+
+UserPermission:
+  description: Permissions request for user
+  discriminator:
+    propertyName: VDJServer
+  required:
+    - username
+  allOf:
+    - $ref: '#/components/schemas/ProjectPermission'
+    - type: object
+      properties:
+        username:
+          description: user to apply permissions
+          type: string
+
+MetadataPermission:
+  description: Permissions request for project metadata object
+  discriminator:
+    propertyName: VDJServer
+  required:
+    - metadata_uuid
+  allOf:
+    - $ref: '#/components/schemas/ProjectPermission'
+    - type: object
+      properties:
+        metadata_uuid:
+          description: metadata object to apply permissions
+          type: string
+
+Feedback:
+  description: Feedback message.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    feedback:
+      type: string
+      description: message content
+
+PublicFeedback:
+  description: Public feedback message.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: '#/components/schemas/Feedback'
+    - $ref: '#/components/schemas/Recaptcha'
+    - type: object
+      properties:
+        email:
+          description: User email.
+          type: string
+
+ErrorTelemetry:
+  description: Error telemetry.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    project_uuid:
+      type: string
+    job_uuid:
+      type: string
+    filename:
+      type: string
+    method:
+      type: string
+    error:
+      type: string
+    view:
+      type: string
+    browser:
+      type: string
+    os:
+      type: string
+
+ADCRepositorySet:
+  description: Set of ADC repositories.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - adc
+  properties:
+    adc:
+      type: object
+
+PROVModel:
+  description: PROV model
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    prefix:
+      description: namespace prefixes
+      type: object
+      nullable: true
+    entity:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    agent:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    activity:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    used:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    wasAttributedTo:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    wasAssociatedWith:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    wasDerivedFrom:
+      description: Username that owns the project.
+      type: object
+      nullable: true
+    wasGeneratedBy:
+      description: Username that owns the project.
+      type: object
+      nullable: true
