@@ -1,17 +1,17 @@
 #
 # Schema definitions for VDJServer standards objects
 #
-Info:
-    title: VDJServer Schema
-    description: Schema definitions for VDJServer standards objects
-    version: "2.0"
-    contact:
-        name: VDJServer
-        url: https://vdjserver.org
-    license:
-        name: Creative Commons Attribution 4.0 International
-        url: https://creativecommons.org/licenses/by/4.0/
-        copyright: UT Southwestern Medical Center
+#Info:
+#    title: VDJServer Schema
+#    description: Schema definitions for VDJServer standards objects
+#    version: "2.0"
+#    contact:
+#        name: VDJServer
+#        url: https://vdjserver.org
+#    license:
+#        name: Creative Commons Attribution 4.0 International
+#        url: https://creativecommons.org/licenses/by/4.0/
+#        copyright: UT Southwestern Medical Center
 
 BasicResponse:
   description: Basic response object
