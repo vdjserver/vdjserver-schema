@@ -124,7 +124,7 @@ Project:
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/components/schemas/Study'
+    - $ref: '#/Study'
     - type: object
       properties:
         owner:
@@ -141,7 +141,7 @@ ProjectMetadata:
       type: string
       description: metadata identifier
     value:
-      $ref: '#/components/schemas/Project'
+      $ref: '#/Project'
 
 ProjectPermission:
   description: Permissions request for project
@@ -162,7 +162,7 @@ UserPermission:
   required:
     - username
   allOf:
-    - $ref: '#/components/schemas/ProjectPermission'
+    - $ref: '#/ProjectPermission'
     - type: object
       properties:
         username:
@@ -176,7 +176,7 @@ MetadataPermission:
   required:
     - metadata_uuid
   allOf:
-    - $ref: '#/components/schemas/ProjectPermission'
+    - $ref: '#/ProjectPermission'
     - type: object
       properties:
         metadata_uuid:
@@ -198,8 +198,8 @@ PublicFeedback:
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/components/schemas/Feedback'
-    - $ref: '#/components/schemas/Recaptcha'
+    - $ref: '#/Feedback'
+    - $ref: '#/Recaptcha'
     - type: object
       properties:
         email:
