@@ -102,21 +102,22 @@ UserAccountCreation:
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/components/schemas/UserAccount'
-    - $ref: '#/components/schemas/Recaptcha'
+    - $ref: '#/UserAccount'
+    - $ref: '#/Recaptcha'
 
-MetadataFile:
-  description: AIRR metadata file.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  properties:
-    Info:
-      $ref: '#/components/schemas/Info'
-    Repertoire:
-      type: array
-      items:
-        $ref: '#/components/schemas/Repertoire'
+# TODO: This should come from AIRR standards DataFile
+#MetadataFile:
+#  description: AIRR metadata file.
+#  discriminator:
+#    propertyName: VDJServer
+#  type: object
+#  properties:
+#    Info:
+#      $ref: '#/InfoObject'
+#    Repertoire:
+#      type: array
+#      items:
+#        $ref: '#/Repertoire'
 
 Project:
   description: VDJServer project which is an extension of the AIRR Study object.
