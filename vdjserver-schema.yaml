@@ -124,7 +124,7 @@ Project:
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/Study'
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/master/specs/airr-schema-openapi3.yaml#/Study'
     - type: object
       properties:
         owner:
