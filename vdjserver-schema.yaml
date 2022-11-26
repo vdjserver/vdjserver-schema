@@ -1,17 +1,17 @@
 #
 # Schema definitions for VDJServer standards objects
 #
-Info:
-    title: VDJServer Schema
-    description: Schema definitions for VDJServer standards objects
-    version: "2.0"
-    contact:
-        name: VDJServer
-        url: https://vdjserver.org
-    license:
-        name: Creative Commons Attribution 4.0 International
-        url: https://creativecommons.org/licenses/by/4.0/
-        copyright: UT Southwestern Medical Center
+#Info:
+#    title: VDJServer Schema
+#    description: Schema definitions for VDJServer standards objects
+#    version: "2.0"
+#    contact:
+#        name: VDJServer
+#        url: https://vdjserver.org
+#    license:
+#        name: Creative Commons Attribution 4.0 International
+#        url: https://creativecommons.org/licenses/by/4.0/
+#        copyright: UT Southwestern Medical Center
 
 BasicResponse:
   description: Basic response object
@@ -102,28 +102,29 @@ UserAccountCreation:
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/components/schemas/UserAccount'
-    - $ref: '#/components/schemas/Recaptcha'
+    - $ref: '#/UserAccount'
+    - $ref: '#/Recaptcha'
 
-MetadataFile:
-  description: AIRR metadata file.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  properties:
-    Info:
-      $ref: '#/components/schemas/Info'
-    Repertoire:
-      type: array
-      items:
-        $ref: '#/components/schemas/Repertoire'
+# TODO: This should come from AIRR standards DataFile
+#MetadataFile:
+#  description: AIRR metadata file.
+#  discriminator:
+#    propertyName: VDJServer
+#  type: object
+#  properties:
+#    Info:
+#      $ref: '#/InfoObject'
+#    Repertoire:
+#      type: array
+#      items:
+#        $ref: '#/Repertoire'
 
 Project:
   description: VDJServer project which is an extension of the AIRR Study object.
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/components/schemas/Study'
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
     - type: object
       properties:
         owner:
@@ -140,7 +141,7 @@ ProjectMetadata:
       type: string
       description: metadata identifier
     value:
-      $ref: '#/components/schemas/Project'
+      $ref: '#/Project'
 
 ProjectPermission:
   description: Permissions request for project
@@ -161,7 +162,7 @@ UserPermission:
   required:
     - username
   allOf:
-    - $ref: '#/components/schemas/ProjectPermission'
+    - $ref: '#/ProjectPermission'
     - type: object
       properties:
         username:
@@ -175,7 +176,7 @@ MetadataPermission:
   required:
     - metadata_uuid
   allOf:
-    - $ref: '#/components/schemas/ProjectPermission'
+    - $ref: '#/ProjectPermission'
     - type: object
       properties:
         metadata_uuid:
@@ -197,8 +198,8 @@ PublicFeedback:
   discriminator:
     propertyName: VDJServer
   allOf:
-    - $ref: '#/components/schemas/Feedback'
-    - $ref: '#/components/schemas/Recaptcha'
+    - $ref: '#/Feedback'
+    - $ref: '#/Recaptcha'
     - type: object
       properties:
         email:
