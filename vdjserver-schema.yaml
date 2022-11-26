@@ -244,6 +244,8 @@ PROVModel:
   discriminator:
     propertyName: VDJServer
   type: object
+  x-vdjserver:
+    tapis_name: prov_model
   properties:
     prefix:
       description: namespace prefixes
