@@ -1,6 +1,8 @@
-# README #
+# VDJServer Schema #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+OpenAPI V3 JSON schema for VDJServer V2 objects. Some objects are stored in Tapis Meta or
+are extensions of AIRR objects. Other objects are used in the V2 API.
+Some schema defines analysis output.
 
 ### What is this repository for? ###
 

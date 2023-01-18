@@ -253,34 +253,71 @@ PROVModel:
       type: object
       nullable: true
     entity:
-      description: Username that owns the project.
+      description: Set of entities.
       type: object
       nullable: true
     agent:
-      description: Username that owns the project.
+      description: Set of agents.
       type: object
       nullable: true
     activity:
-      description: Username that owns the project.
+      description: Set of activities.
       type: object
       nullable: true
     used:
-      description: Username that owns the project.
+      description: relationship; activity used entity.
       type: object
       nullable: true
     wasAttributedTo:
-      description: Username that owns the project.
+      description: relationship; X wasAttributedTo agent.
       type: object
       nullable: true
     wasAssociatedWith:
-      description: Username that owns the project.
+      description: relationship; X wasAssociatedWith Y.
       type: object
       nullable: true
     wasDerivedFrom:
-      description: Username that owns the project.
+      description: relationship; entity wasDerivedFrom entity.
       type: object
       nullable: true
     wasGeneratedBy:
-      description: Username that owns the project.
+      description: relationship; entity wasGeneratedBy activity.
       type: object
       nullable: true
+
+PROVRequest:
+  description: Request execution of a PROV model
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: prov_request
+  properties:
+    prov_model:
+      $ref: '#/PROVModel'
+    audit_only:
+      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
+      type: boolean
+      nullable: true
+    use_alternate_app:
+      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
+      type: boolean
+      nullable: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
