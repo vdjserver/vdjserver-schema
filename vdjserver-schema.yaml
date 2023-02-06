@@ -1,17 +1,17 @@
 #
 # Schema definitions for VDJServer standards objects
 #
-#Info:
-#    title: VDJServer Schema
-#    description: Schema definitions for VDJServer standards objects
-#    version: "2.0"
-#    contact:
-#        name: VDJServer
-#        url: https://vdjserver.org
-#    license:
-#        name: Creative Commons Attribution 4.0 International
-#        url: https://creativecommons.org/licenses/by/4.0/
-#        copyright: UT Southwestern Medical Center
+Info:
+    title: VDJServer Schema
+    description: Schema definitions for VDJServer standards objects
+    version: "2.0"
+    contact:
+        name: VDJServer
+        url: https://vdjserver.org
+    license:
+        name: Creative Commons Attribution 4.0 International
+        url: https://creativecommons.org/licenses/by/4.0/
+        copyright: UT Southwestern Medical Center
 
 BasicResponse:
   description: Basic response object
@@ -119,29 +119,175 @@ UserAccountCreation:
 #      items:
 #        $ref: '#/Repertoire'
 
-Project:
-  description: VDJServer project which is an extension of the AIRR Study object.
+
+# VDJServer extensions for AIRR objects
+#
+# The schema for AIRR standards objects is extended to
+# provide a number of VDJServer common properties. This schema 
+# specifies the structure, property names and data types.
+
+CommonExtension:
   discriminator:
     propertyName: VDJServer
+  description: VDJServer common extension properties
+  type: object
+  properties:
+    vdjserver_uuid:
+      description: link to object in Tapis Meta
+      type: string
+    version:
+      description: Timestamp of the object
+      type: string
+      format: date-time
+
+
+StudyExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
   allOf:
-    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
-    - type: object
+    - $ref: '#/CommonExtension'
+    - description: VDJServer extension properties for AIRR Study
+      type: object
       properties:
         owner:
           description: Username that owns the project.
           type: string
 
-ProjectMetadata:
-  description: Tapis metadata object for a project.
+Study:
+  description: VDJServer Study which is an extension of the AIRR Study object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/StudyExtension'
+
+Project:
+  description: VDJServer project which is an extension of the VDJServer Study object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: '#/Study'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/StudyExtension'
+
+RepertoireExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  allOf:
+    - $ref: '#/CommonExtension'
+    - description: VDJServer extension properties for AIRR Repertoire
+      type: object
+      properties:
+        owner:
+          description: Username that owns the project.
+          type: string
+
+Repertoire:
+  description: VDJServer project which is an extension of the AIRR Repertoire object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Repertoire'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/RepertoireExtension'
+
+# Generic Tapis Meta API object
+# everything except value which is customized for each object type
+TapisMetaObject:
+  description: Tapis Meta API object.
   discriminator:
     propertyName: VDJServer
   type: object
   properties:
     uuid:
+      description: object identifier
       type: string
-      description: metadata identifier
-    value:
-      $ref: '#/Project'
+      nullable: false
+      default: ""
+    associationIds:
+      description: object associations
+      type: array
+      nullable: true
+      items:
+        type: string
+    owner:
+      description: Tapis object owner
+      type: string
+      nullable: true
+    created:
+      description: object creation timestamp
+      type: string
+      format: date-time
+      nullable: true
+    lastUpdated:
+      description: object last update timestamp
+      type: string
+      format: date-time
+      nullable: true
+    name:
+      description: object type name
+      type: string
+      nullable: false
+#    value:
+#      description: object value, can be a nested JSON object
+#      type: object
+#      nullable: false
+
+ProjectMetadata:
+  description: Tapis Meta object for a project.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project.
+      type: object
+      properties:
+        value:
+          $ref: '#/Project'
+
+RepertoireMetadata:
+  description: VDJServer Repertoire in normal form, just vdjserver uuids link them
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    study:
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+    subject:
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+    sample:
+      type: array
+      items:
+        type: object
+        properties:
+          vdjserver:
+            $ref: '#/CommonExtension'
+    data_processing:
+      type: array
+      items:
+        type: object
+        properties:
+          vdjserver:
+            $ref: '#/CommonExtension'
+
 
 ProjectPermission:
   description: Permissions request for project
@@ -240,6 +386,9 @@ ADCRepositorySet:
     adc:
       type: object
 
+PROVDocument:
+  $ref: 'https://www.w3.org/Submission/prov-json/schema'
+
 PROVModel:
   description: PROV model
   discriminator:
@@ -304,8 +453,62 @@ PROVRequest:
       type: boolean
       nullable: true
 
+AIRRDataCommons:
+  description: VDJServer object to represent the whole AIRR Data Commons, which includes VDJServer.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: airr_data_commons
+  properties:
+    prov_model:
+      $ref: '#/PROVModel'
+    audit_only:
+      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
+      type: boolean
+      nullable: true
+    use_alternate_app:
+      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
+      type: boolean
+      nullable: true
 
+ADCRepository:
+  description: VDJServer object to represent an ADC repository, this includes VDJServer.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: adc_repository
+  properties:
+    prov_model:
+      $ref: '#/PROVModel'
+    audit_only:
+      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
+      type: boolean
+      nullable: true
+    use_alternate_app:
+      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
+      type: boolean
+      nullable: true
 
+ADCCache:
+  description: VDJServer object to represent the cache of the ADC, which excludes VDJServer.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: adc_cache
+  properties:
+    prov_model:
+      $ref: '#/PROVModel'
+    audit_only:
+      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
+      type: boolean
+      nullable: true
+    use_alternate_app:
+      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
+      type: boolean
+      nullable: true
 
 
 
