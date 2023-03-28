@@ -74,6 +74,58 @@ UserAccount:
 #
 # Objects for management of AIRR Data Commons
 #
+ADCRepository:
+  description: VDJServer object to represent an ADC repository, this includes VDJServer.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - repository_id
+    - title
+    - server_host
+    - base_url
+  properties:
+    repository_id:
+      description: Unique repository identifier
+      example: vdjserver
+      type: string
+      nullable: false
+    disable:
+      description: Disable the repository
+      type: boolean
+      default: true
+    title:
+      description: Display name of repository
+      example: VDJServer
+      type: string
+    server_host:
+      description: Hostname for repository
+      example: vdjserver.org
+      type: string
+      nullable: false
+    base_url:
+      description: Base ADC URL for repository
+      example: /airr/v1
+      type: string
+      nullable: false
+    enable_cache:
+      description: ADC download caching for the repository
+      type: boolean
+      default: false
+    supports_async:
+      description: Repository supports AIRR ADC ASYNC API extension
+      type: boolean
+      default: false
+    async_host:
+      description: Hostname for repository
+      example: vdjserver.org
+      type: string
+    async_base_url:
+      description: Base ADC ASYNC API URL for repository
+      example: /airr/async/v1
+      type: string
+      nullable: false
+
 ADCRepositorySet:
   description: Set of ADC repositories.
   discriminator:
@@ -83,8 +135,162 @@ ADCRepositorySet:
     - adc
   properties:
     adc:
+      description: List of production repositories. Each entry is keyed by the repository id.
       type: object
+      additionalProperties:
+        $ref: "#/ADCRepository"
+    staging:
+      description: List of staging repositories. Each entry is keyed by the repository id.
+      type: object
+      additionalProperties:
+        $ref: "#/ADCRepository"
 
+#
+# ADC project load objects
+#
+ADCProjectLoad:
+  description: ADC project load.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - collection
+  properties:
+    collection:
+      description: Collection suffix.
+      type: string
+      nullable: false
+    shouldLoad:
+      description: Flag to indicate project should be loaded into ADC.
+      type: boolean
+      default: false
+    isLoaded:
+      description: Flag to indicate project is completely loaded into ADC.
+      type: boolean
+      default: false
+    repertoireMetadataLoaded:
+      description: Flag to indicate if repertoire data has finished loading into ADC.
+      type: boolean
+      default: false
+    rearrangementDataLoaded:
+      description: Flag to indicate if rearrangement data has finished loading into ADC.
+      type: boolean
+      default: false
+
+ADCRearrangementLoad:
+  description: ADC rearrangement load.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - repertoire_id
+    - collection
+  properties:
+    repertoire_id:
+      description: Repertoire identifier for the rearrangements.
+      type: string
+      nullable: false
+    collection:
+      description: Collection suffix.
+      type: string
+      nullable: false
+    isLoaded:
+      description: Flag to indicate rearrangements are completely loaded into ADC.
+      type: boolean
+      default: false
+    load_set:
+      description: Last rearrangement set that was loaded.
+      type: number
+
+#
+# ADC download cache objects
+#
+ADCDownloadCache:
+  description: ADC download cache status.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - enable_cache
+  properties:
+    enable_cache:
+      description: Global enable/disable of the cache. Local settings for a service may override this.
+      type: boolean
+      default: false
+
+ADCDownloadCacheStudy:
+  description: ADC download cache status for a study in a repository
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - repository_id
+    - study_id
+  properties:
+    repository_id:
+      description: Repository identifier
+      example: vdjserver
+      type: string
+      nullable: false
+    study_id:
+      description: Study identifier
+      example: PRJNA578389
+      type: string
+      nullable: false
+    should_cache:
+      description: Flag to enable/disable caching of this study.
+      type: boolean
+      default: false
+    is_cached:
+      description: Is this study cached.
+      type: boolean
+      default: false
+    archive_file:
+      description: File path to the cached study
+      type: string
+    download_url:
+      description: Tapis Postits public URL to download cache file
+      type: string
+
+ADCDownloadCacheRepertoire:
+  description: ADC download cache status for a repertoire within a study
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - repository_id
+    - study_id
+    - repertoire_id
+  properties:
+    repository_id:
+      description: Repository identifier
+      example: vdjserver
+      type: string
+      nullable: false
+    study_id:
+      description: Study identifier
+      example: PRJNA578389
+      type: string
+      nullable: false
+    repertoire_id:
+      description: Repertoire identifier
+      example: vdjserver
+      type: string
+      nullable: false
+    should_cache:
+      description: Flag to enable/disable caching of this repertoire.
+      type: boolean
+      default: false
+    is_cached:
+      description: Is this repertoire cached.
+      type: boolean
+      default: false
+    archive_file:
+      description: File path to the cached repertoire
+      type: string
+    download_url:
+      description: Tapis Postits public URL to download cache file
+      type: string
 
 # VDJServer extensions for AIRR objects
 #
@@ -276,6 +482,92 @@ RepertoireMetadata:
         properties:
           vdjserver:
             $ref: '#/CommonExtension'
+
+ADCRepositorySetMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_system_repositories
+    singleton: true
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCRepositorySet'
+
+ADCProjectLoadMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: projectLoad
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Project load into ADC.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCProjectLoad'
+
+ADCRearrangementLoadMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: rearrangementLoad
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Load rearrangements for project into ADC.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCRearrangementLoad'
+
+ADCDownloadCacheMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_cache
+    singleton: true
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: ADC download cache for study.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCDownloadCache'
+
+ADCDownloadCacheStudyMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_cache_study
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: ADC download cache for study.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCDownloadCacheStudy'
+
+ADCDownloadCacheRepertoireMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_cache_repertoire
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: ADC download cache for repertoire.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCDownloadCacheRepertoire'
 
 ProvDocument:
   description: PROV document
@@ -565,25 +857,6 @@ AIRRDataCommons:
   type: object
   x-vdjserver:
     tapis_name: airr_data_commons
-  properties:
-    prov_model:
-      $ref: '#/PROVModel'
-    audit_only:
-      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
-      type: boolean
-      nullable: true
-    use_alternate_app:
-      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
-      type: boolean
-      nullable: true
-
-ADCRepository:
-  description: VDJServer object to represent an ADC repository, this includes VDJServer.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  x-vdjserver:
-    tapis_name: adc_repository
   properties:
     prov_model:
       $ref: '#/PROVModel'
