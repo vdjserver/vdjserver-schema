@@ -1,6 +1,28 @@
 #
-# Schema definitions for VDJServer standards objects
+# Schema definitions for VDJServer objects
 #
+# VDJServer Analysis Portal
+# VDJServer Schema
+# https://vdjserver.org
+#
+# Copyright (C) 2023 The University of Texas Southwestern Medical Center
+#
+# Author: Scott Christley <scott.christley@utsouthwestern.edu>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
 Info:
     title: VDJServer Schema
     description: Schema definitions for VDJServer standards objects
@@ -9,63 +31,15 @@ Info:
         name: VDJServer
         url: https://vdjserver.org
     license:
-        name: Creative Commons Attribution 4.0 International
-        url: https://creativecommons.org/licenses/by/4.0/
+        name: GNU Affero General Public License V3
+        url: https://www.gnu.org/licenses/agpl-3.0.en.html
         copyright: UT Southwestern Medical Center
 
-BasicResponse:
-  description: Basic response object
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  properties:
-    status:
-      type: boolean
-    message:
-      type: string
-
-InfoObject:
-  description: Provides information about the API service and/or response
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  properties:
-    title:
-      type: string
-    version:
-      type: string
-    description:
-      type: string
-    contact: 
-      type: object
-      properties:
-        name:
-          type: string
-        url:
-          type: string
-        email:
-          type: string
-    license:
-      type: object
-      properties:
-        name:
-          type: string
-        url:
-          type: string
-        copyright:
-          type: string
-
-Recaptcha:
-  description: Google recaptcha response.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  required:
-    - g-recaptcha-response
-  properties:
-    g-recaptcha-response:
-      type: string
-      description: The recaptcha response
+###################################################
+#
+# Data objects
+#
+###################################################
 
 UserAccount:
   description: User account.
@@ -97,27 +71,19 @@ UserAccount:
     affiliation:
       type: string
 
-UserAccountCreation:
-  description: Account creation with user and recaptcha objects
+#
+# Objects for management of AIRR Data Commons
+#
+ADCRepositorySet:
+  description: Set of ADC repositories.
   discriminator:
     propertyName: VDJServer
-  allOf:
-    - $ref: '#/UserAccount'
-    - $ref: '#/Recaptcha'
-
-# TODO: This should come from AIRR standards DataFile
-#MetadataFile:
-#  description: AIRR metadata file.
-#  discriminator:
-#    propertyName: VDJServer
-#  type: object
-#  properties:
-#    Info:
-#      $ref: '#/InfoObject'
-#    Repertoire:
-#      type: array
-#      items:
-#        $ref: '#/Repertoire'
+  type: object
+  required:
+    - adc
+  properties:
+    adc:
+      type: object
 
 
 # VDJServer extensions for AIRR objects
@@ -139,7 +105,6 @@ CommonExtension:
       description: Timestamp of the object
       type: string
       format: date-time
-
 
 StudyExtension:
   discriminator:
@@ -192,7 +157,7 @@ RepertoireExtension:
           type: string
 
 Repertoire:
-  description: VDJServer project which is an extension of the AIRR Repertoire object.
+  description: VDJServer extension of the AIRR Repertoire object.
   discriminator:
     propertyName: VDJServer
   allOf:
@@ -202,6 +167,30 @@ Repertoire:
       properties:
         vdjserver:
           $ref: '#/RepertoireExtension'
+
+DataFileExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  allOf:
+    - description: VDJServer extension of AIRR DataFile
+      type: object
+      properties:
+        "vdjserver:app:igblast":
+          description: Username that owns the project.
+          type: string
+
+DataFile:
+  description: VDJServer DataFile which is an extension of the AIRR DataFile object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/DataFile'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        VDJServer:
+          $ref: '#/DataFileExtension'
 
 # Generic Tapis Meta API object
 # everything except value which is customized for each object type
@@ -288,6 +277,180 @@ RepertoireMetadata:
           vdjserver:
             $ref: '#/CommonExtension'
 
+ProvDocument:
+  description: PROV document
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: prov_document
+  properties:
+    entity:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/entity'
+    agent:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/agent'
+    activity:
+      type: object
+      properties:
+        "prov:startTime":
+          type: string
+          format: date-time
+        "prov:endTime":
+          type: string
+          format: date-time
+      additionalProperties:
+        $ref: "https://www.w3.org/Submission/prov-json/schema#/definitions/attributeValues"
+    used:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
+    wasAttributedTo:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
+    wasAssociatedWith:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
+    wasDerivedFrom:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
+    wasGeneratedBy:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
+
+TaskDocument:
+  description: PROV document
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    uses:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
+    isAttributedTo:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
+    isAssociatedWith:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
+    isDerivedFrom:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
+    isGeneratedBy:
+      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
+
+AnalysisDocument:
+  description: VDJServer analysis workflow document
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: analysis_document
+  allOf:
+    - $ref: '#/ProvDocument'
+    - $ref: '#/TaskDocument'
+
+PROVModel:
+  description: PROV model
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  x-vdjserver:
+    tapis_name: prov_model
+  properties:
+    prefix:
+      description: namespace prefixes
+      type: object
+      nullable: true
+    entity:
+      description: Set of entities.
+      type: object
+      nullable: true
+    agent:
+      description: Set of agents.
+      type: object
+      nullable: true
+    activity:
+      description: Set of activities.
+      type: object
+      nullable: true
+    used:
+      description: relationship; activity used entity.
+      type: object
+      nullable: true
+    wasAttributedTo:
+      description: relationship; X wasAttributedTo agent.
+      type: object
+      nullable: true
+    wasAssociatedWith:
+      description: relationship; X wasAssociatedWith Y.
+      type: object
+      nullable: true
+    wasDerivedFrom:
+      description: relationship; entity wasDerivedFrom entity.
+      type: object
+      nullable: true
+    wasGeneratedBy:
+      description: relationship; entity wasGeneratedBy activity.
+      type: object
+      nullable: true
+
+###################################################
+#
+# Web API objects for requests and responses
+#
+###################################################
+
+BasicResponse:
+    description: Basic response object
+    discriminator:
+        propertyName: VDJServer
+    type: object
+    properties:
+        status:
+            type: boolean
+        message:
+            type: string
+
+InfoObject:
+  description: Provides information about the API service and/or response
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    title:
+      type: string
+    version:
+      type: string
+    description:
+      type: string
+    contact: 
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        email:
+          type: string
+    license:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        copyright:
+          type: string
+
+Recaptcha:
+  description: Google recaptcha response.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - g-recaptcha-response
+  properties:
+    g-recaptcha-response:
+      type: string
+      description: The recaptcha response
+
+UserAccountCreation:
+  description: Account creation with user and recaptcha objects
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: '#/UserAccount'
+    - $ref: '#/Recaptcha'
 
 ProjectPermission:
   description: Permissions request for project
@@ -375,64 +538,6 @@ ErrorTelemetry:
     os:
       type: string
 
-ADCRepositorySet:
-  description: Set of ADC repositories.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  required:
-    - adc
-  properties:
-    adc:
-      type: object
-
-PROVDocument:
-  $ref: 'https://www.w3.org/Submission/prov-json/schema'
-
-PROVModel:
-  description: PROV model
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  x-vdjserver:
-    tapis_name: prov_model
-  properties:
-    prefix:
-      description: namespace prefixes
-      type: object
-      nullable: true
-    entity:
-      description: Set of entities.
-      type: object
-      nullable: true
-    agent:
-      description: Set of agents.
-      type: object
-      nullable: true
-    activity:
-      description: Set of activities.
-      type: object
-      nullable: true
-    used:
-      description: relationship; activity used entity.
-      type: object
-      nullable: true
-    wasAttributedTo:
-      description: relationship; X wasAttributedTo agent.
-      type: object
-      nullable: true
-    wasAssociatedWith:
-      description: relationship; X wasAssociatedWith Y.
-      type: object
-      nullable: true
-    wasDerivedFrom:
-      description: relationship; entity wasDerivedFrom entity.
-      type: object
-      nullable: true
-    wasGeneratedBy:
-      description: relationship; entity wasGeneratedBy activity.
-      type: object
-      nullable: true
 
 PROVRequest:
   description: Request execution of a PROV model
@@ -454,7 +559,7 @@ PROVRequest:
       nullable: true
 
 AIRRDataCommons:
-  description: VDJServer object to represent the whole AIRR Data Commons, which includes VDJServer.
+  description: VDJServer object to represent the whole AIRR Data Commons (ADC), which includes VDJServer.
   discriminator:
     propertyName: VDJServer
   type: object
@@ -492,7 +597,7 @@ ADCRepository:
       nullable: true
 
 ADCCache:
-  description: VDJServer object to represent the cache of the ADC, which excludes VDJServer.
+  description: VDJServer object to represent the cache of the ADC, which includes VDJServer itself.
   discriminator:
     propertyName: VDJServer
   type: object

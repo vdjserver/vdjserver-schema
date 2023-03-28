@@ -64,6 +64,13 @@ vdj_schema.schemaPromise = async function() {
     // dereference all $ref objects, returns a promise
     var spec = await $RefParser.dereference(doc);
     vdj_schema.Schema['specification'] = spec;
+
+    // post-cleanup of PROV schema
+//    if (spec['PROVDocument']) {
+//        let defs = spec['PROVDocument']['definitions'];
+//        spec['PROVDocument'] = { 'type': 'object', 'properties': defs };
+//    }
+
     return spec;
 };
 vdj_schema.awaitSchema = function() {
@@ -81,16 +88,22 @@ vdj_schema.awaitSchema = function() {
 //    return new airr.SchemaDefinition(definition);
 //};
 
+// return schemas in for appropriate for API doc
 vdj_schema.get_schemas = function() {
     if (! vdj_schema.Schema['specification']) return null;
 
+    // make deep copy of schemas
+    let schemas = JSON.parse(JSON.stringify(vdj_schema.Schema['specification']));
     // remove Info
-    let k = Object.keys(vdj_schema.Schema['specification']);
-    k.splice(k.indexOf("Info"), 1);
-    return k;
+    delete schemas['Info'];
+    return schemas;
 }
 
 vdj_schema.tapisName = function(schema_name) {
+}
+
+vdj_schema.get_info = function() {
+    return vdj_schema.Schema['specification']['Info'];
 }
 
 //
