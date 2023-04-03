@@ -125,6 +125,10 @@ ADCRepository:
       example: /airr/async/v1
       type: string
       nullable: false
+    enable_statistics_cache:
+      description: Statistics cache enable/disable for the repository
+      type: boolean
+      default: false
 
 ADCRepositorySet:
   description: Set of ADC repositories.
@@ -888,6 +892,19 @@ ADCCache:
       type: boolean
       nullable: true
 
+ADCRepositoryUpdateRequest:
+  description: API request object
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  required:
+    - repository_set
+    - repository
+  properties:
+    repository_set:
+      type: string
+    repository:
+      $ref: '#/ADCRepository'
 
 
 
