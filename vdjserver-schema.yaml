@@ -582,50 +582,63 @@ ProvDocument:
     tapis_name: prov_document
   properties:
     entity:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/entity'
-    agent:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/agent'
-    activity:
-      type: object
-      properties:
-        "prov:startTime":
-          type: string
-          format: date-time
-        "prov:endTime":
-          type: string
-          format: date-time
       additionalProperties:
-        $ref: "https://www.w3.org/Submission/prov-json/schema#/definitions/attributeValues"
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/entity'
+    agent:
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/agent'
+    activity:
+      additionalProperties:
+        type: object
+        properties:
+          "prov:startTime":
+            type: string
+            format: date-time
+          "prov:endTime":
+            type: string
+            format: date-time
+        additionalProperties:
+          $ref: "https://www.w3.org/Submission/prov-json/schema#/definitions/attributeValues"
     used:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
     wasAttributedTo:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
     wasAssociatedWith:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
     wasDerivedFrom:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
     wasGeneratedBy:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
 
 TaskDocument:
-  description: PROV document
+  description: Task document
   discriminator:
     propertyName: VDJServer
   type: object
   properties:
     uses:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
     isAttributedTo:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
     isAssociatedWith:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
     isDerivedFrom:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
     isGeneratedBy:
-      $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
+      additionalProperties:
+        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
 
 AnalysisDocument:
-  description: VDJServer analysis workflow document
+  description: Analysis workflow document
   discriminator:
     propertyName: VDJServer
   type: object
@@ -634,51 +647,6 @@ AnalysisDocument:
   allOf:
     - $ref: '#/ProvDocument'
     - $ref: '#/TaskDocument'
-
-PROVModel:
-  description: PROV model
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  x-vdjserver:
-    tapis_name: prov_model
-  properties:
-    prefix:
-      description: namespace prefixes
-      type: object
-      nullable: true
-    entity:
-      description: Set of entities.
-      type: object
-      nullable: true
-    agent:
-      description: Set of agents.
-      type: object
-      nullable: true
-    activity:
-      description: Set of activities.
-      type: object
-      nullable: true
-    used:
-      description: relationship; activity used entity.
-      type: object
-      nullable: true
-    wasAttributedTo:
-      description: relationship; X wasAttributedTo agent.
-      type: object
-      nullable: true
-    wasAssociatedWith:
-      description: relationship; X wasAssociatedWith Y.
-      type: object
-      nullable: true
-    wasDerivedFrom:
-      description: relationship; entity wasDerivedFrom entity.
-      type: object
-      nullable: true
-    wasGeneratedBy:
-      description: relationship; entity wasGeneratedBy activity.
-      type: object
-      nullable: true
 
 ###################################################
 #
@@ -835,18 +803,20 @@ ErrorTelemetry:
       type: string
 
 
-PROVRequest:
-  description: Request execution of a PROV model
+AnalysisRequest:
+  description: Request execution of an analysis workflow
   discriminator:
     propertyName: VDJServer
   type: object
   x-vdjserver:
-    tapis_name: prov_request
+    tapis_name: analysis_request
+  required:
+    - workflow
   properties:
-    prov_model:
-      $ref: '#/PROVModel'
+    workflow:
+      $ref: '#/AnalysisDocument'
     audit_only:
-      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
+      description: Simulates execution of workflow for validation, assumes jobs run correctly but does not execute them.
       type: boolean
       nullable: true
     use_alternate_app:
@@ -862,8 +832,6 @@ AIRRDataCommons:
   x-vdjserver:
     tapis_name: airr_data_commons
   properties:
-    prov_model:
-      $ref: '#/PROVModel'
     audit_only:
       description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
       type: boolean
@@ -881,8 +849,6 @@ ADCCache:
   x-vdjserver:
     tapis_name: adc_cache
   properties:
-    prov_model:
-      $ref: '#/PROVModel'
     audit_only:
       description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
       type: boolean

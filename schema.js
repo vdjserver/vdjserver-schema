@@ -115,9 +115,9 @@ vdj_schema.SchemaDefinition = function(definition) {
         throw new Error('Info is an invalid schema definition name');
     }
 
-    console.log('vdj_schema.SchemaDefinition');
-    console.log(vdj_schema.Schema);
-    console.log(vdj_schema.Schema['specification']);
+    //console.log('vdj_schema.SchemaDefinition');
+    //console.log(vdj_schema.Schema);
+    //console.log(vdj_schema.Schema['specification']);
     this.definition = vdj_schema.Schema['specification'][definition];
     if (! this.definition)
         throw new Error('Schema definition ' + definition + ' cannot be found in the specifications');
