@@ -37,12 +37,224 @@ Info:
 
 ###################################################
 #
+# VDJServer extensions for AIRR objects
+#
+# The schema for AIRR standards objects is extended to
+# provide a number of VDJServer common properties. This schema 
+# specifies the structure, property names and data types.
+
+CommonExtension:
+  discriminator:
+    propertyName: VDJServer
+  description: VDJServer common extension properties
+  type: object
+  properties:
+    vdjserver_uuid:
+      description: link to object in Tapis Meta
+      type: string
+    version:
+      description: Timestamp of the object
+      type: string
+      format: date-time
+
+StudyExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  allOf:
+    - $ref: '#/CommonExtension'
+    - description: VDJServer extension properties for AIRR Study
+      type: object
+      properties:
+        owner:
+          description: Username that owns the project.
+          type: string
+
+Study:
+  description: VDJServer Study which is an extension of the AIRR Study object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/StudyExtension'
+
+ProjectExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  allOf:
+    - $ref: '#/StudyExtension'
+    - description: VDJServer extension properties for VDJServer Project
+      type: object
+      properties:
+        showArchivedJobs:
+          description: Flag for archived jobs.
+          type: boolean
+
+Project:
+  description: VDJServer project which is an extension of the VDJServer Study object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/ProjectExtension'
+
+RepertoireExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  allOf:
+    - $ref: '#/CommonExtension'
+    - description: VDJServer extension properties for AIRR Repertoire
+      type: object
+      properties:
+        owner:
+          description: Username that owns the project.
+          type: string
+
+Repertoire:
+  description: VDJServer extension of the AIRR Repertoire object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Repertoire'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/RepertoireExtension'
+
+Subject:
+  description: VDJServer extension of the AIRR Subject object.
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Subject'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+
+SampleProcessing:
+  description: VDJServer extension of the AIRR SampleProcessing object.
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/SampleProcessing'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+
+DataProcessing:
+  description: VDJServer extension of the AIRR DataProcessing object.
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/DataProcessing'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+
+# TODO: still in development
+DataFileExtension:
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  allOf:
+    - description: VDJServer extension of AIRR DataFile
+      type: object
+      properties:
+        "vdjserver:app:igblast":
+          description: Username that owns the project.
+          type: string
+
+DataFile:
+  description: VDJServer DataFile which is an extension of the AIRR DataFile object.
+  discriminator:
+    propertyName: VDJServer
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/DataFile'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        VDJServer:
+          $ref: '#/DataFileExtension'
+
+###################################################
+#
+# Tapis Meta
+#
+# Database storage of objects using the Tapis Meta API.
+# Tapis Meta V2 design, name/value structure for an object,
+# which we will keep for Tapis Meta V3.
+#
+
+# Generic Tapis Meta API object
+# everything except value which is customized for each object type
+TapisMetaObject:
+  description: Tapis Meta API object.
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    uuid:
+      description: object identifier
+      type: string
+      nullable: false
+      default: ""
+    associationIds:
+      description: object associations
+      type: array
+      nullable: true
+      items:
+        type: string
+    owner:
+      description: Tapis object owner
+      type: string
+      nullable: true
+    created:
+      description: object creation timestamp
+      type: string
+      format: date-time
+      nullable: true
+    lastUpdated:
+      description: object last update timestamp
+      type: string
+      format: date-time
+      nullable: true
+    name:
+      description: object type name
+      type: string
+      nullable: false
+#    value:
+#      description: object value, can be a nested JSON object
+#      type: object
+#      nullable: false
+
+###################################################
+#
 # Data objects
 #
-###################################################
+# standard objects and their associated Tapis Meta
+# object if they are being stored in the database.
+#
+# These are objects that tend to be shared/common
+# between the GUI and the backend services.
+#
+
+#
+# User account related objects
+#
 
 UserAccount:
-  description: User account.
+  description: User account and profile.
   discriminator:
     propertyName: VDJServer
   type: object
@@ -70,10 +282,254 @@ UserAccount:
       type: string
     affiliation:
       type: string
+    disableJobEmail:
+      type: boolean
+    disableUserEmail:
+      type: boolean
+    disablePublishEmail:
+      type: boolean
+
+UserAccountMeta:
+  description: Tapis Meta object for a VDJServer user account.
+  x-vdjserver:
+    tapis_name: profile
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer user account.
+      type: object
+      properties:
+        value:
+          $ref: '#/UserAccount'
+
+UserVerification:
+  description: User account verification.
+  type: object
+  required:
+    - username
+    - isVerified
+  properties:
+    username:
+      type: string
+    isVerified:
+      type: boolean
+
+UserVerificationMeta:
+  description: Tapis Meta object for a VDJServer user verification.
+  x-vdjserver:
+    tapis_name: userVerification
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer user verification.
+      type: object
+      properties:
+        value:
+          $ref: '#/UserVerification'
+
+Feedback:
+  description: User feedback.
+  type: object
+  required:
+    - feedbackMessage
+  properties:
+    feedbackMessage:
+      type: string
+    username:
+      type: string
+    email:
+      type: string
+
+FeedbackMeta:
+  description: Tapis Meta object for VDJServer user feedback.
+  x-vdjserver:
+    tapis_name: feedback
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer user feedback.
+      type: object
+      properties:
+        value:
+          $ref: '#/Feedback'
+
+#
+# Project related objects
+#
+
+# Project is defined above with the AIRR objects
+PrivateProjectMeta:
+  description: Tapis Meta object for a VDJServer private project.
+  x-vdjserver:
+    tapis_name: private_project
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer private project.
+      type: object
+      properties:
+        value:
+          $ref: '#/Project'
+
+PublicProjectMeta:
+  description: Tapis Meta object for a VDJServer public project.
+  x-vdjserver:
+    tapis_name: public_project
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer public project.
+      type: object
+      properties:
+        value:
+          $ref: '#/Project'
+
+RepertoireMeta:
+  description: VDJServer Repertoire in normal form, just vdjserver uuids link them
+  discriminator:
+    propertyName: VDJServer
+  type: object
+  properties:
+    study:
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+    subject:
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+    sample:
+      type: array
+      items:
+        type: object
+        properties:
+          vdjserver:
+            $ref: '#/CommonExtension'
+    data_processing:
+      type: array
+      items:
+        type: object
+        properties:
+          vdjserver:
+            $ref: '#/CommonExtension'
+
+#
+# File-related objects
+#
+
+ProjectFile:
+  description: VDJServer project files.
+  type: object
+  required:
+    - projectUuid
+    - name
+  properties:
+    projectUuid:
+      type: string
+    name:
+      type: string
+    length:
+      type: number
+# TODO: other properties to consider/integrate
+#   "type": 22,
+#   "name": 30949,
+#   "mimeType": 264,
+#   "fileCategory": 245,
+#   "fileType": 30731,
+#   "isDeleted": 30923,
+#   "privateAttributes": 231,
+#   "publicAttributes": 30779,
+#   "metadataVersion": 13,
+#   "isForwardRead": 27,
+#   "isReverseRead": 27,
+#   "readDirection": 30585,
+#   "qualityScoreMetadataUuid": 522,
+#   "pairedReadMetadataUuid": 5276,
+#   "isPlaceholder": 40,
+#   "readMetadataUuid": 29,
+#   "lastUpdated": 47,
+#   "fileTypeName": 47
+
+ProjectFileMeta:
+  description: Tapis Meta object for a VDJServer project file.
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project file.
+      type: object
+      properties:
+        value:
+          $ref: '#/ProjectFile'
+
+# TODO: maybe an extension of ProjectFile?
+ProjectJobFile:
+  description: VDJServer files generated from jobs.
+  type: object
+  required:
+    - projectUuid
+    - jobUuid
+    - name
+  properties:
+    projectUuid:
+      type: string
+    jobUuid:
+      type: string
+    name:
+      type: string
+    length:
+      type: number
+# TODO: other properties to consider/integrate
+#   "fileType": 363423,
+#   "isDeleted": 363423,
+#   "privateAttributes": 44,
+#   "publicAttributes": 363423,
+#   "readDirection": 363379,
+#   "relativeArchivePath": 363300,
+#   "jobName": 363379,
+#   "pairedReadMetadataUuid": 14,
+#   "showInProjectData": 356684
+
+ProjectJobFileMeta:
+  description: Tapis Meta object for a VDJServer project job file.
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project job file.
+      type: object
+      properties:
+        value:
+          $ref: '#/ProjectJobFile'
+
+ProjectJob:
+  description: Job information associated with a VDJServer project.
+  type: object
+  required:
+    - projectUuid
+    - jobUuid
+  properties:
+    projectUuid:
+      type: string
+    jobUuid:
+      type: string
+    displayName:
+      type: string
+      nullable: true
+    secondaryInputs:
+      type: string
+      nullable: true
+
+ProjectJobMeta:
+  description: Tapis Meta object for a VDJServer project job.
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project job.
+      type: object
+      properties:
+        value:
+          $ref: '#/ProjectJob'
+
+# TODO: Same as ProjectJob but has been archived
+# ProjectJobArchive:
 
 #
 # Objects for management of AIRR Data Commons
 #
+
 ADCRepository:
   description: VDJServer object to represent an ADC repository, this includes VDJServer.
   discriminator:
@@ -149,6 +605,104 @@ ADCRepositorySet:
       additionalProperties:
         $ref: "#/ADCRepository"
 
+ADCRepositorySetMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_system_repositories
+    singleton: true
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCRepositorySet'
+
+ADCAsyncQuery:
+  description: VDJServer object to represent an ADC asynchronous query.
+  type: object
+  required:
+    - endpoint
+    - collection
+    - status
+    - body
+  properties:
+    endpoint:
+      description: API endpoint for query
+      type: string
+      nullable: false
+      enum:
+        - rearrangement
+    collection:
+      description: Mongodb collection identifier
+      type: string
+      nullable: false
+    lrq_id:
+      description: Tapis LRQ identifier
+      type: string
+    status:
+      description: Query status
+      type: string
+      enum:
+        - PENDING
+        - SUBMITTED
+        - PROCESSING
+        - FINISHED
+        - ERROR
+        - EXPIRED
+    message:
+      description: Informational message
+      type: string
+      nullable: true
+    notification:
+      description: Query status notification URL
+      type: string
+      nullable: true
+    body:
+      description: Incoming query body
+      type: object
+    raw_file:
+      description: Tapis file containing raw JSON data from LRQ query
+      type: string
+      nullable: true
+    final_file:
+      description: Filename for final processed data to be downloaded by user
+      type: string
+      nullable: true
+    download_url:
+      description: Tapis postit URL for user to download final file
+      type: string
+      nullable: true
+    postit_id:
+      description: Tapis postit identifier for download file
+      type: string
+      nullable: true
+    count_lrq_id:
+      description: Tapis LRQ identifier for estimated count of query result
+      type: string
+      nullable: true
+    estimated_count:
+      description: Estimated count of query result. Used to enforce maximum result size.
+      type: number
+      nullable: true
+# OBSOLETE: these were used in early versions of async API implementation
+#  "query_aggr": 3740,
+#  "count_aggr": 3740,
+
+ADCAsyncQueryMeta:
+  description: Tapis Meta object.
+  x-vdjserver:
+    tapis_name: async_query
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Async query status.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCAsyncQuery'
+
 #
 # ADC project load objects
 #
@@ -181,6 +735,20 @@ ADCProjectLoad:
       type: boolean
       default: false
 
+ADCProjectLoadMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: projectLoad
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Project load into ADC.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCProjectLoad'
+
 ADCRearrangementLoad:
   description: ADC rearrangement load.
   discriminator:
@@ -206,6 +774,20 @@ ADCRearrangementLoad:
       description: Last rearrangement set that was loaded.
       type: number
 
+ADCRearrangementLoadMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: rearrangementLoad
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Load rearrangements for project into ADC.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCRearrangementLoad'
+
 #
 # ADC download cache objects
 #
@@ -221,6 +803,21 @@ ADCDownloadCache:
       description: Global enable/disable of the cache. Local settings for a service may override this.
       type: boolean
       default: false
+
+ADCDownloadCacheMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_cache
+    singleton: true
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: ADC download cache for study.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCDownloadCache'
 
 ADCDownloadCacheStudy:
   description: ADC download cache status for a study in a repository
@@ -255,6 +852,20 @@ ADCDownloadCacheStudy:
     download_url:
       description: Tapis Postits public URL to download cache file
       type: string
+
+ADCDownloadCacheStudyMeta:
+  description: Tapis Meta object.
+  discriminator:
+    propertyName: VDJServer
+  x-vdjserver:
+    tapis_name: adc_cache_study
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: ADC download cache for study.
+      type: object
+      properties:
+        value:
+          $ref: '#/ADCDownloadCacheStudy'
 
 ADCDownloadCacheRepertoire:
   description: ADC download cache status for a repertoire within a study
@@ -296,269 +907,6 @@ ADCDownloadCacheRepertoire:
       description: Tapis Postits public URL to download cache file
       type: string
 
-# VDJServer extensions for AIRR objects
-#
-# The schema for AIRR standards objects is extended to
-# provide a number of VDJServer common properties. This schema 
-# specifies the structure, property names and data types.
-
-CommonExtension:
-  discriminator:
-    propertyName: VDJServer
-  description: VDJServer common extension properties
-  type: object
-  properties:
-    vdjserver_uuid:
-      description: link to object in Tapis Meta
-      type: string
-    version:
-      description: Timestamp of the object
-      type: string
-      format: date-time
-
-StudyExtension:
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  allOf:
-    - $ref: '#/CommonExtension'
-    - description: VDJServer extension properties for AIRR Study
-      type: object
-      properties:
-        owner:
-          description: Username that owns the project.
-          type: string
-
-Study:
-  description: VDJServer Study which is an extension of the AIRR Study object.
-  discriminator:
-    propertyName: VDJServer
-  allOf:
-    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
-    - description: VDJServer object container for extra attributes.
-      type: object
-      properties:
-        vdjserver:
-          $ref: '#/StudyExtension'
-
-Project:
-  description: VDJServer project which is an extension of the VDJServer Study object.
-  discriminator:
-    propertyName: VDJServer
-  allOf:
-    - $ref: '#/Study'
-    - description: VDJServer object container for extra attributes.
-      type: object
-      properties:
-        vdjserver:
-          $ref: '#/StudyExtension'
-
-RepertoireExtension:
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  allOf:
-    - $ref: '#/CommonExtension'
-    - description: VDJServer extension properties for AIRR Repertoire
-      type: object
-      properties:
-        owner:
-          description: Username that owns the project.
-          type: string
-
-Repertoire:
-  description: VDJServer extension of the AIRR Repertoire object.
-  discriminator:
-    propertyName: VDJServer
-  allOf:
-    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Repertoire'
-    - description: VDJServer object container for extra attributes.
-      type: object
-      properties:
-        vdjserver:
-          $ref: '#/RepertoireExtension'
-
-DataFileExtension:
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  allOf:
-    - description: VDJServer extension of AIRR DataFile
-      type: object
-      properties:
-        "vdjserver:app:igblast":
-          description: Username that owns the project.
-          type: string
-
-DataFile:
-  description: VDJServer DataFile which is an extension of the AIRR DataFile object.
-  discriminator:
-    propertyName: VDJServer
-  allOf:
-    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/DataFile'
-    - description: VDJServer object container for extra attributes.
-      type: object
-      properties:
-        VDJServer:
-          $ref: '#/DataFileExtension'
-
-# Generic Tapis Meta API object
-# everything except value which is customized for each object type
-TapisMetaObject:
-  description: Tapis Meta API object.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  properties:
-    uuid:
-      description: object identifier
-      type: string
-      nullable: false
-      default: ""
-    associationIds:
-      description: object associations
-      type: array
-      nullable: true
-      items:
-        type: string
-    owner:
-      description: Tapis object owner
-      type: string
-      nullable: true
-    created:
-      description: object creation timestamp
-      type: string
-      format: date-time
-      nullable: true
-    lastUpdated:
-      description: object last update timestamp
-      type: string
-      format: date-time
-      nullable: true
-    name:
-      description: object type name
-      type: string
-      nullable: false
-#    value:
-#      description: object value, can be a nested JSON object
-#      type: object
-#      nullable: false
-
-ProjectMetadata:
-  description: Tapis Meta object for a project.
-  discriminator:
-    propertyName: VDJServer
-  allOf:
-    - $ref: '#/TapisMetaObject'
-    - description: VDJServer project.
-      type: object
-      properties:
-        value:
-          $ref: '#/Project'
-
-RepertoireMetadata:
-  description: VDJServer Repertoire in normal form, just vdjserver uuids link them
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  properties:
-    study:
-      type: object
-      properties:
-        vdjserver:
-          $ref: '#/CommonExtension'
-    subject:
-      type: object
-      properties:
-        vdjserver:
-          $ref: '#/CommonExtension'
-    sample:
-      type: array
-      items:
-        type: object
-        properties:
-          vdjserver:
-            $ref: '#/CommonExtension'
-    data_processing:
-      type: array
-      items:
-        type: object
-        properties:
-          vdjserver:
-            $ref: '#/CommonExtension'
-
-ADCRepositorySetMeta:
-  description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
-  x-vdjserver:
-    tapis_name: adc_system_repositories
-    singleton: true
-  allOf:
-    - $ref: '#/TapisMetaObject'
-    - description: VDJServer project.
-      type: object
-      properties:
-        value:
-          $ref: '#/ADCRepositorySet'
-
-ADCProjectLoadMeta:
-  description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
-  x-vdjserver:
-    tapis_name: projectLoad
-  allOf:
-    - $ref: '#/TapisMetaObject'
-    - description: Project load into ADC.
-      type: object
-      properties:
-        value:
-          $ref: '#/ADCProjectLoad'
-
-ADCRearrangementLoadMeta:
-  description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
-  x-vdjserver:
-    tapis_name: rearrangementLoad
-  allOf:
-    - $ref: '#/TapisMetaObject'
-    - description: Load rearrangements for project into ADC.
-      type: object
-      properties:
-        value:
-          $ref: '#/ADCRearrangementLoad'
-
-ADCDownloadCacheMeta:
-  description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
-  x-vdjserver:
-    tapis_name: adc_cache
-    singleton: true
-  allOf:
-    - $ref: '#/TapisMetaObject'
-    - description: ADC download cache for study.
-      type: object
-      properties:
-        value:
-          $ref: '#/ADCDownloadCache'
-
-ADCDownloadCacheStudyMeta:
-  description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
-  x-vdjserver:
-    tapis_name: adc_cache_study
-  allOf:
-    - $ref: '#/TapisMetaObject'
-    - description: ADC download cache for study.
-      type: object
-      properties:
-        value:
-          $ref: '#/ADCDownloadCacheStudy'
-
 ADCDownloadCacheRepertoireMeta:
   description: Tapis Meta object.
   discriminator:
@@ -572,6 +920,141 @@ ADCDownloadCacheRepertoireMeta:
       properties:
         value:
           $ref: '#/ADCDownloadCacheRepertoire'
+
+#
+# Objects for management of Statistics Cache (Stats API)
+#
+
+StatisticsCache:
+  description: Statistics cache status.
+  type: object
+  required:
+    - enable_cache
+    - jobs_submitted
+  properties:
+    enable_cache:
+      description: Global enable/disable of the cache. Local settings for a service may override this.
+      type: boolean
+      default: false
+    jobs_submitted:
+      description: Flag indicating if statistics jobs are being run.
+      type: boolean
+      default: false
+
+StatisticsCacheMeta:
+  description: Tapis Meta object.
+  x-vdjserver:
+    tapis_name: statistics_cache
+    singleton: true
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Statistics cache global status.
+      type: object
+      properties:
+        value:
+          $ref: '#/StatisticsCache'
+
+StatisticsCacheStudy:
+  description: Statistics cache status for a study in a repository
+  type: object
+  required:
+    - repository_id
+    - study_id
+    - download_cache_id
+  properties:
+    repository_id:
+      description: Repository identifier
+      example: vdjserver
+      type: string
+      nullable: false
+    study_id:
+      description: Study identifier
+      example: PRJNA578389
+      type: string
+      nullable: false
+    download_cache_id:
+      description: Identifer to ADC download cache entry for study
+      type: string
+      nullable: false
+    should_cache:
+      description: Flag to enable/disable caching of this study.
+      type: boolean
+      default: false
+    is_cached:
+      description: Is this study cached.
+      type: boolean
+      default: false
+
+StatisticsCacheStudyMeta:
+  description: Tapis Meta object.
+  x-vdjserver:
+    tapis_name: statistics_cache_study
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Statistics cache for study.
+      type: object
+      properties:
+        value:
+          $ref: '#/StatisticsCacheStudy'
+
+StatisticsCacheRepertoire:
+  description: Statistics cache status for a repertoire within a study
+  type: object
+  required:
+    - repository_id
+    - study_id
+    - repertoire_id
+    - download_cache_id
+  properties:
+    repository_id:
+      description: Repository identifier
+      example: vdjserver
+      type: string
+      nullable: false
+    study_id:
+      description: Study identifier
+      example: PRJNA624801
+      type: string
+      nullable: false
+    repertoire_id:
+      description: Repertoire identifier
+      example: "6977444714660359700-242ac117-0001-012"
+      type: string
+      nullable: false
+    download_cache_id:
+      description: Identifer to ADC download cache entry for repertoire
+      type: string
+      nullable: false
+    should_cache:
+      description: Flag to enable/disable caching of this repertoire.
+      type: boolean
+      default: false
+    is_cached:
+      description: Is this repertoire cached.
+      type: boolean
+      default: false
+    statistics_job_id:
+      description: Tapis jobs identifier for statistics calculation
+      type: string
+    timeMultiplier:
+      description: Estimated run time multiplier for statistics job
+      type: number
+
+StatisticsCacheRepertoireMeta:
+  description: Tapis Meta object.
+  x-vdjserver:
+    tapis_name: statistics_cache_repertoire
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: Statistics cache for repertoire.
+      type: object
+      properties:
+        value:
+          $ref: '#/StatisticsCacheRepertoire'
+
+#
+# TODO: analysis tasks/workflows/jobs still being designed
+#
 
 ProvDocument:
   description: PROV document
@@ -756,7 +1239,7 @@ MetadataPermission:
           description: metadata object to apply permissions
           type: string
 
-Feedback:
+FeedbackRequest:
   description: Feedback message.
   discriminator:
     propertyName: VDJServer
@@ -766,7 +1249,7 @@ Feedback:
       type: string
       description: message content
 
-PublicFeedback:
+PublicFeedbackRequest:
   description: Public feedback message.
   discriminator:
     propertyName: VDJServer
@@ -802,7 +1285,6 @@ ErrorTelemetry:
     os:
       type: string
 
-
 AnalysisRequest:
   description: Request execution of an analysis workflow
   discriminator:
@@ -817,40 +1299,6 @@ AnalysisRequest:
       $ref: '#/AnalysisDocument'
     audit_only:
       description: Simulates execution of workflow for validation, assumes jobs run correctly but does not execute them.
-      type: boolean
-      nullable: true
-    use_alternate_app:
-      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
-      type: boolean
-      nullable: true
-
-AIRRDataCommons:
-  description: VDJServer object to represent the whole AIRR Data Commons (ADC), which includes VDJServer.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  x-vdjserver:
-    tapis_name: airr_data_commons
-  properties:
-    audit_only:
-      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
-      type: boolean
-      nullable: true
-    use_alternate_app:
-      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
-      type: boolean
-      nullable: true
-
-ADCCache:
-  description: VDJServer object to represent the cache of the ADC, which includes VDJServer itself.
-  discriminator:
-    propertyName: VDJServer
-  type: object
-  x-vdjserver:
-    tapis_name: adc_cache
-  properties:
-    audit_only:
-      description: Runs through full model to validate, assumes jobs run correctly but does not execute them.
       type: boolean
       nullable: true
     use_alternate_app:
