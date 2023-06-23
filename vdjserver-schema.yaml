@@ -44,8 +44,6 @@ Info:
 # specifies the structure, property names and data types.
 
 CommonExtension:
-  discriminator:
-    propertyName: VDJServer
   description: VDJServer common extension properties
   type: object
   properties:
@@ -58,8 +56,6 @@ CommonExtension:
       format: date-time
 
 StudyExtension:
-  discriminator:
-    propertyName: VDJServer
   type: object
   allOf:
     - $ref: '#/CommonExtension'
@@ -72,8 +68,6 @@ StudyExtension:
 
 Study:
   description: VDJServer Study which is an extension of the AIRR Study object.
-  discriminator:
-    propertyName: VDJServer
   allOf:
     - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
     - description: VDJServer object container for extra attributes.
@@ -83,8 +77,6 @@ Study:
           $ref: '#/StudyExtension'
 
 ProjectExtension:
-  discriminator:
-    propertyName: VDJServer
   type: object
   allOf:
     - $ref: '#/StudyExtension'
@@ -97,8 +89,6 @@ ProjectExtension:
 
 Project:
   description: VDJServer project which is an extension of the VDJServer Study object.
-  discriminator:
-    propertyName: VDJServer
   allOf:
     - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Study'
     - description: VDJServer object container for extra attributes.
@@ -108,8 +98,6 @@ Project:
           $ref: '#/ProjectExtension'
 
 RepertoireExtension:
-  discriminator:
-    propertyName: VDJServer
   type: object
   allOf:
     - $ref: '#/CommonExtension'
@@ -122,8 +110,6 @@ RepertoireExtension:
 
 Repertoire:
   description: VDJServer extension of the AIRR Repertoire object.
-  discriminator:
-    propertyName: VDJServer
   allOf:
     - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Repertoire'
     - description: VDJServer object container for extra attributes.
@@ -164,8 +150,6 @@ DataProcessing:
 
 # TODO: still in development
 DataFileExtension:
-  discriminator:
-    propertyName: VDJServer
   type: object
   allOf:
     - description: VDJServer extension of AIRR DataFile
@@ -177,8 +161,6 @@ DataFileExtension:
 
 DataFile:
   description: VDJServer DataFile which is an extension of the AIRR DataFile object.
-  discriminator:
-    propertyName: VDJServer
   allOf:
     - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/DataFile'
     - description: VDJServer object container for extra attributes.
@@ -200,8 +182,6 @@ DataFile:
 # everything except value which is customized for each object type
 TapisMetaObject:
   description: Tapis Meta API object.
-  discriminator:
-    propertyName: VDJServer
   type: object
   properties:
     uuid:
@@ -255,8 +235,6 @@ TapisMetaObject:
 
 UserAccount:
   description: User account and profile.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - username
@@ -381,8 +359,6 @@ PublicProjectMeta:
 
 RepertoireMeta:
   description: VDJServer Repertoire in normal form, just vdjserver uuids link them
-  discriminator:
-    propertyName: VDJServer
   type: object
   properties:
     study:
@@ -532,8 +508,6 @@ ProjectJobMeta:
 
 ADCRepository:
   description: VDJServer object to represent an ADC repository, this includes VDJServer.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - repository_id
@@ -588,8 +562,6 @@ ADCRepository:
 
 ADCRepositorySet:
   description: Set of ADC repositories.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - adc
@@ -607,8 +579,6 @@ ADCRepositorySet:
 
 ADCRepositorySetMeta:
   description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
   x-vdjserver:
     tapis_name: adc_system_repositories
     singleton: true
@@ -708,8 +678,6 @@ ADCAsyncQueryMeta:
 #
 ADCProjectLoad:
   description: ADC project load.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - collection
@@ -737,8 +705,6 @@ ADCProjectLoad:
 
 ADCProjectLoadMeta:
   description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
   x-vdjserver:
     tapis_name: projectLoad
   allOf:
@@ -751,8 +717,6 @@ ADCProjectLoadMeta:
 
 ADCRearrangementLoad:
   description: ADC rearrangement load.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - repertoire_id
@@ -776,8 +740,6 @@ ADCRearrangementLoad:
 
 ADCRearrangementLoadMeta:
   description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
   x-vdjserver:
     tapis_name: rearrangementLoad
   allOf:
@@ -793,8 +755,6 @@ ADCRearrangementLoadMeta:
 #
 ADCDownloadCache:
   description: ADC download cache status.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - enable_cache
@@ -806,8 +766,6 @@ ADCDownloadCache:
 
 ADCDownloadCacheMeta:
   description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
   x-vdjserver:
     tapis_name: adc_cache
     singleton: true
@@ -821,8 +779,6 @@ ADCDownloadCacheMeta:
 
 ADCDownloadCacheStudy:
   description: ADC download cache status for a study in a repository
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - repository_id
@@ -855,8 +811,6 @@ ADCDownloadCacheStudy:
 
 ADCDownloadCacheStudyMeta:
   description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
   x-vdjserver:
     tapis_name: adc_cache_study
   allOf:
@@ -869,8 +823,6 @@ ADCDownloadCacheStudyMeta:
 
 ADCDownloadCacheRepertoire:
   description: ADC download cache status for a repertoire within a study
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - repository_id
@@ -909,8 +861,6 @@ ADCDownloadCacheRepertoire:
 
 ADCDownloadCacheRepertoireMeta:
   description: Tapis Meta object.
-  discriminator:
-    propertyName: VDJServer
   x-vdjserver:
     tapis_name: adc_cache_repertoire
   allOf:
@@ -1058,8 +1008,6 @@ StatisticsCacheRepertoireMeta:
 
 ProvDocument:
   description: PROV document
-  discriminator:
-    propertyName: VDJServer
   type: object
   x-vdjserver:
     tapis_name: prov_document
@@ -1100,8 +1048,6 @@ ProvDocument:
 
 TaskDocument:
   description: Task document
-  discriminator:
-    propertyName: VDJServer
   type: object
   properties:
     uses:
@@ -1122,8 +1068,6 @@ TaskDocument:
 
 AnalysisDocument:
   description: Analysis workflow document
-  discriminator:
-    propertyName: VDJServer
   type: object
   x-vdjserver:
     tapis_name: analysis_document
@@ -1139,8 +1083,6 @@ AnalysisDocument:
 
 BasicResponse:
     description: Basic response object
-    discriminator:
-        propertyName: VDJServer
     type: object
     properties:
         status:
@@ -1150,8 +1092,6 @@ BasicResponse:
 
 InfoObject:
   description: Provides information about the API service and/or response
-  discriminator:
-    propertyName: VDJServer
   type: object
   properties:
     title:
@@ -1181,8 +1121,6 @@ InfoObject:
 
 Recaptcha:
   description: Google recaptcha response.
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - g-recaptcha-response
@@ -1193,16 +1131,12 @@ Recaptcha:
 
 UserAccountCreation:
   description: Account creation with user and recaptcha objects
-  discriminator:
-    propertyName: VDJServer
   allOf:
     - $ref: '#/UserAccount'
     - $ref: '#/Recaptcha'
 
 ProjectPermission:
   description: Permissions request for project
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - project_uuid
@@ -1213,8 +1147,6 @@ ProjectPermission:
 
 UserPermission:
   description: Permissions request for user
-  discriminator:
-    propertyName: VDJServer
   required:
     - username
   allOf:
@@ -1227,8 +1159,6 @@ UserPermission:
 
 MetadataPermission:
   description: Permissions request for project metadata object
-  discriminator:
-    propertyName: VDJServer
   required:
     - metadata_uuid
   allOf:
@@ -1241,8 +1171,6 @@ MetadataPermission:
 
 FeedbackRequest:
   description: Feedback message.
-  discriminator:
-    propertyName: VDJServer
   type: object
   properties:
     feedback:
@@ -1251,8 +1179,6 @@ FeedbackRequest:
 
 PublicFeedbackRequest:
   description: Public feedback message.
-  discriminator:
-    propertyName: VDJServer
   allOf:
     - $ref: '#/Feedback'
     - $ref: '#/Recaptcha'
@@ -1264,8 +1190,6 @@ PublicFeedbackRequest:
 
 ErrorTelemetry:
   description: Error telemetry.
-  discriminator:
-    propertyName: VDJServer
   type: object
   properties:
     project_uuid:
@@ -1287,8 +1211,6 @@ ErrorTelemetry:
 
 AnalysisRequest:
   description: Request execution of an analysis workflow
-  discriminator:
-    propertyName: VDJServer
   type: object
   x-vdjserver:
     tapis_name: analysis_request
@@ -1308,8 +1230,6 @@ AnalysisRequest:
 
 ADCRepositoryUpdateRequest:
   description: API request object
-  discriminator:
-    propertyName: VDJServer
   type: object
   required:
     - repository_set
