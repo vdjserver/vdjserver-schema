@@ -23,7 +23,6 @@ module.exports = vdj_schema;
 // we use airr-js to load custom schema
 vdj_schema.load_schema = async function() {
     var file = path.resolve(__dirname, './vdjserver-schema.yaml');
-    console.log('vdj_schema.load_schema:', file);
     var airr = require('airr-js');
     var spec = await airr.load_custom_schema(vdj_schema, file);
 
