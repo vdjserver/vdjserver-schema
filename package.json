@@ -16,20 +16,13 @@
     "url": "https://bitbucket.org/vdjserver/vdjserver-schema"
   },
   "license": "GNU AGPL V3",
-  "main": "schema.js",
+  "main": "vdjserver-schema.js",
+  "browser": {
+    "./vdjserver-schema.js": "./vdjserver-schema-browser.js"
+  },
   "private": true,
   "dependencies": {
-    "axios": "1.1.3",
-    "bull": "^3.20.0",
-    "csv-parser": "^2.3.2",
-    "errorhandler": "1.3.2",
-    "form-data": "2.3.2",
-    "js-yaml": "^3.10.0",
-    "json-approver": "1.0.3",
-    "json-schema-ref-parser": "^9.0.9",
-    "moment": "2.24.0",
-    "moment-timezone": "0.4.1",
-    "underscore": "1.7.0"
+    "airr-js": "file:../airr-standards/lang/js"
   },
   "devDependencies": {
     "eslint": "^7.9.0"
