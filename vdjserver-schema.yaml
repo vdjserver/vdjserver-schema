@@ -673,6 +673,16 @@ ADCAsyncQueryMeta:
         value:
           $ref: '#/ADCAsyncQuery'
 
+ADCQueryFilter:
+  type: object
+  description: Query Filter Expression for the ADC API.
+  properties:
+    body:
+      description: ADC query filter body
+      type: object
+  x-vdjserver:
+    tapis_name: adc_query_filter
+
 #
 # ADC project load objects
 #
@@ -1075,6 +1085,27 @@ AnalysisDocument:
     - $ref: '#/ProvDocument'
     - $ref: '#/TaskDocument'
 
+#
+# Objects for server side generation of visualizations
+#
+
+VisualizationDocument:
+  description: Task document
+  type: object
+  properties:
+    name:
+      description: visualization name
+      type: string
+      enum:
+        - mutational_hedgehog
+    repertoire:
+      type: string
+    repertoire_group:
+      type: string
+    processing_stage:
+      type: string
+
+
 ###################################################
 #
 # Web API objects for requests and responses
@@ -1227,6 +1258,15 @@ AnalysisRequest:
       description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
       type: boolean
       nullable: true
+
+VisualizationRequest:
+  description: Request generation of data visualization
+  type: object
+  required:
+    - visualization
+  properties:
+    visualization:
+      $ref: '#/VisualizationDocument'
 
 ADCRepositoryUpdateRequest:
   description: API request object
