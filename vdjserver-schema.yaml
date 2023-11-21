@@ -1097,10 +1097,11 @@ VisualizationDocument:
       description: visualization name
       type: string
       enum:
+        - heartbeat
         - mutational_hedgehog
-    repertoire:
+    repertoire_id:
       type: string
-    repertoire_group:
+    repertoire_group_id:
       type: string
     processing_stage:
       type: string
