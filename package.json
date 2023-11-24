@@ -29,7 +29,8 @@
   },
   "scripts": {
     "eslint": "eslint",
-    "test": "make test"
+    "test": "jest",
+    "prepare": "node ./deref.js"
   },
   "engines": {
     "node": ">=12.18.3",

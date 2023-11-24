@@ -1,5 +1,5 @@
 # Base Image
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 MAINTAINER VDJServer <vdjserver@utsouthwestern.edu>
 
@@ -28,7 +28,8 @@ RUN pip3 install \
 ##################
 
 # node
-ENV NODE_VER v12.18.3
+ENV NODE_VER v18.17.1
+#ENV NODE_VER v12.18.3
 RUN wget https://nodejs.org/dist/$NODE_VER/node-$NODE_VER-linux-x64.tar.xz
 RUN tar xf node-$NODE_VER-linux-x64.tar.xz
 RUN cp -rf /node-$NODE_VER-linux-x64/bin/* /usr/bin
@@ -44,8 +45,13 @@ RUN cp -rf /node-$NODE_VER-linux-x64/share/* /usr/share
 ##################
 
 # Copy project source
+RUN mkdir /airr-standards
+COPY airr-standards /airr-standards
+RUN cd /airr-standards/lang/js && npm install --unsafe-perm
+
+# Copy project source
 RUN mkdir /vdjserver-schema
-COPY . /vdjserver-schema
+COPY vdjserver-schema /vdjserver-schema
 RUN cd /vdjserver-schema && npm install
 
 # ESLint
