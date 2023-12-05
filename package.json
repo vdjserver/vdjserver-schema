@@ -22,7 +22,7 @@
   },
   "private": true,
   "dependencies": {
-    "airr-js": "file:../airr-standards/lang/js"
+    "airr-js": "file:airr-standards/lang/js"
   },
   "devDependencies": {
     "eslint": "^7.9.0"

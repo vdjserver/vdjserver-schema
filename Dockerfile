@@ -45,15 +45,15 @@ RUN cp -rf /node-$NODE_VER-linux-x64/share/* /usr/share
 ##################
 
 # Copy project source
-RUN mkdir /airr-standards
-COPY airr-standards /airr-standards
-RUN cd /airr-standards/lang/js && npm install --unsafe-perm
+#RUN mkdir /airr-standards
+#COPY airr-standards /airr-standards
 
 # Copy project source
 RUN mkdir /vdjserver-schema
-COPY vdjserver-schema /vdjserver-schema
+COPY . /vdjserver-schema
+RUN cd /vdjserver-schema/airr-standards/lang/js && npm install --unsafe-perm
 RUN cd /vdjserver-schema && npm install
 
 # ESLint
-RUN cd /vdjserver-schema && npm run eslint .
+#RUN cd /vdjserver-schema/airr-standards/lang/js && npm run eslint .
 
