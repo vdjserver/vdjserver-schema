@@ -111,14 +111,64 @@ RepertoireExtension:
           type: string
 
 Repertoire:
-  description: VDJServer extension of the AIRR Repertoire object.
-  allOf:
-    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/v1.4.1/specs/airr-schema-openapi3.yaml#/Repertoire'
-    - description: VDJServer object container for extra attributes.
+  description: VDJServer normal-form version of the AIRR Repertoire object.
+  type: object
+  required:
+    - study
+    - subject
+    - sample
+    - data_processing
+  properties:
+    repertoire_id:
+      type: string
+      nullable: true
+      description: >
+          Identifier for the repertoire object. This identifier should be globally unique so that repertoires
+          from multiple studies can be combined together without conflict. The repertoire_id is used to link
+          other AIRR data to a Repertoire. Specifically, the Rearrangements Schema includes repertoire_id for
+          referencing the specific Repertoire for that Rearrangement.
+      title: Repertoire ID
+    repertoire_name:
+      type: string
+      nullable: true
+      description: Short generic display name for the repertoire
+      title: Repertoire name
+    repertoire_description:
+      type: string
+      nullable: true
+      description: Generic repertoire description
+      title: Repertoire description
+    study:
       type: object
       properties:
-        vdjserver:
-          $ref: '#/RepertoireExtension'
+        vdjserver_uuid:
+          description: link to object in Tapis Meta
+          type: string
+          nullable: true
+    subject:
+      type: object
+      properties:
+        vdjserver_uuid:
+          description: link to object in Tapis Meta
+          type: string
+          nullable: true
+    sample:
+      type: array
+      nullable: false
+      items:
+        type: object
+        properties:
+          vdjserver_uuid:
+            description: link to object in Tapis Meta
+            type: string
+            nullable: true
+    data_processing:
+      type: object
+      properties:
+        vdjserver_uuid:
+          description: link to object in Tapis Meta
+          type: string
+          nullable: true
 
 Subject:
   description: VDJServer extension of the AIRR Subject object.
