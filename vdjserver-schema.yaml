@@ -163,12 +163,15 @@ Repertoire:
             type: string
             nullable: true
     data_processing:
-      type: object
-      properties:
-        vdjserver_uuid:
-          description: link to object in Tapis Meta
-          type: string
-          nullable: true
+      type: array
+      nullable: false
+      items:
+        type: object
+        properties:
+          vdjserver_uuid:
+            description: link to object in Tapis Meta
+            type: string
+            nullable: true
 
 Subject:
   description: VDJServer extension of the AIRR Subject object.
