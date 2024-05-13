@@ -90,6 +90,33 @@ ProjectExtension:
           description: Flag for archived jobs.
           type: boolean
 
+ProjectPermission:
+  description: User permissions on project and its associated objects
+  type: array
+  nullable: false
+  items:
+    type: object
+    required:
+      - username
+      - permission
+    properties:
+      username:
+        description: Username for permissions
+        type: string
+        nullable: false
+      permission:
+        description: list of permissions
+        type: object
+        nullable: false
+        properties:
+          read:
+            description: read permission
+            type: boolean
+          write:
+            description: write permission
+            type: boolean
+
+
 Project:
   description: VDJServer project which is an extension of the VDJServer Study object.
   allOf:
@@ -244,6 +271,9 @@ DataFile:
 TapisMetaObject:
   description: Tapis Meta API object.
   type: object
+  required:
+    - uuid
+    - name
   properties:
     uuid:
       description: object identifier
@@ -405,6 +435,8 @@ PrivateProjectMeta:
       properties:
         value:
           $ref: '#/Project'
+        permission:
+          $ref: '#/ProjectPermission'
 
 PublicProjectMeta:
   description: Tapis Meta object for a VDJServer public project.
@@ -420,6 +452,8 @@ PublicProjectMeta:
 
 RepertoireMeta:
   description: VDJServer Repertoire in normal form, just vdjserver uuids link them
+  x-vdjserver:
+    tapis_name: repertoire
   type: object
   properties:
     study:
@@ -447,6 +481,42 @@ RepertoireMeta:
           vdjserver:
             $ref: '#/CommonExtension'
 
+SubjectMeta:
+  description: Tapis Meta object for a VDJServer subject.
+  x-vdjserver:
+    tapis_name: subject
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer subject.
+      type: object
+      properties:
+        value:
+          $ref: '#/Subject'
+
+SampleProcessingMeta:
+  description: Tapis Meta object for a VDJServer sample processing.
+  x-vdjserver:
+    tapis_name: sample_processing
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer sample processing.
+      type: object
+      properties:
+        value:
+          $ref: '#/SampleProcessing'
+
+DataProcessingMeta:
+  description: Tapis Meta object for a VDJServer data processing.
+  x-vdjserver:
+    tapis_name: data_processing
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer data processing.
+      type: object
+      properties:
+        value:
+          $ref: '#/DataProcessing'
+
 #
 # File-related objects
 #
@@ -455,15 +525,22 @@ ProjectFile:
   description: VDJServer project files.
   type: object
   required:
-    - projectUuid
-    - name
+    - path
   properties:
-    projectUuid:
+    path:
       type: string
     name:
       type: string
-    length:
+    size:
       type: number
+    readDirection:
+      type: string
+    fileType:
+      type: number
+    tags:
+      type: string
+    url:
+      type: string
 # TODO: other properties to consider/integrate
 #   "type": 22,
 #   "name": 30949,
@@ -486,6 +563,8 @@ ProjectFile:
 
 ProjectFileMeta:
   description: Tapis Meta object for a VDJServer project file.
+  x-vdjserver:
+    tapis_name: project_file
   allOf:
     - $ref: '#/TapisMetaObject'
     - description: VDJServer project file.
@@ -1228,7 +1307,7 @@ UserAccountCreation:
     - $ref: '#/UserAccount'
     - $ref: '#/Recaptcha'
 
-ProjectPermission:
+ProjectPermissionRequest:
   description: Permissions request for project
   type: object
   required:
@@ -1243,7 +1322,7 @@ UserPermission:
   required:
     - username
   allOf:
-    - $ref: '#/ProjectPermission'
+    - $ref: '#/ProjectPermissionRequest'
     - type: object
       properties:
         username:
@@ -1255,7 +1334,7 @@ MetadataPermission:
   required:
     - metadata_uuid
   allOf:
-    - $ref: '#/ProjectPermission'
+    - $ref: '#/ProjectPermissionRequest'
     - type: object
       properties:
         metadata_uuid:
