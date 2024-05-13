@@ -28,3 +28,12 @@ vdj_schema.load_schema = async function() {
 
     return Promise.resolve(spec);
 };
+
+vdj_schema.spec_for_tapis_name = function(tapis_name) {
+    for (let name in vdj_schema.Schema.specification) {
+        let obj = vdj_schema.Schema.specification[name];
+        if (obj['x-vdjserver'] && obj['x-vdjserver']['tapis_name'] == tapis_name)
+            return vdj_schema.get_schema(name);
+    }
+    return null;
+}
