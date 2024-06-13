@@ -67,6 +67,12 @@ StudyExtension:
           description: Username that owns the project.
           type: string
           nullable: true
+        keywords:
+          description: VDJServer specific keywords.
+          type: array
+          items:
+            type: string
+          nullable: true
 
 Study:
   description: VDJServer Study which is an extension of the AIRR Study object.
