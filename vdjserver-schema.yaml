@@ -535,10 +535,12 @@ ProjectFile:
       type: number
     readDirection:
       type: string
+      nullable: true
     fileType:
       type: number
     tags:
       type: string
+      nullable: true
     url:
       type: string
 # TODO: other properties to consider/integrate
@@ -565,6 +567,18 @@ ProjectFileMeta:
   description: Tapis Meta object for a VDJServer project file.
   x-vdjserver:
     tapis_name: project_file
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer project file.
+      type: object
+      properties:
+        value:
+          $ref: '#/ProjectFile'
+
+DeletedFileMeta:
+  description: Tapis Meta object for a VDJServer deleted project file.
+  x-vdjserver:
+    tapis_name: deleted_file
   allOf:
     - $ref: '#/TapisMetaObject'
     - description: VDJServer project file.
@@ -1316,6 +1330,22 @@ ProjectPermissionRequest:
     project_uuid:
       description: project related to the permissions.
       type: string
+
+FilePostitRequest:
+  description: Postit request for file
+  type: object
+  required:
+    - path
+  properties:
+    path:
+      description: file path
+      type: string
+    allowedUses:
+      description: file path
+      type: number
+    validSeconds:
+      description: file path
+      type: number
 
 UserPermission:
   description: Permissions request for user
