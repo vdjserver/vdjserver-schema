@@ -175,6 +175,8 @@ Repertoire:
       title: Repertoire description
     study:
       type: object
+      required:
+        - vdjserver_uuid
       properties:
         vdjserver_uuid:
           description: link to object in Tapis Meta
@@ -182,6 +184,8 @@ Repertoire:
           nullable: true
     subject:
       type: object
+      required:
+        - vdjserver_uuid
       properties:
         vdjserver_uuid:
           description: link to object in Tapis Meta
@@ -192,6 +196,8 @@ Repertoire:
       nullable: false
       items:
         type: object
+        required:
+          - vdjserver_uuid
         properties:
           vdjserver_uuid:
             description: link to object in Tapis Meta
@@ -202,6 +208,8 @@ Repertoire:
       nullable: false
       items:
         type: object
+        required:
+          - vdjserver_uuid
         properties:
           vdjserver_uuid:
             description: link to object in Tapis Meta
@@ -461,31 +469,13 @@ RepertoireMeta:
   x-vdjserver:
     tapis_name: repertoire
   type: object
-  properties:
-    study:
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer repertoire.
       type: object
       properties:
-        vdjserver:
-          $ref: '#/CommonExtension'
-    subject:
-      type: object
-      properties:
-        vdjserver:
-          $ref: '#/CommonExtension'
-    sample:
-      type: array
-      items:
-        type: object
-        properties:
-          vdjserver:
-            $ref: '#/CommonExtension'
-    data_processing:
-      type: array
-      items:
-        type: object
-        properties:
-          vdjserver:
-            $ref: '#/CommonExtension'
+        value:
+          $ref: '#/Repertoire'
 
 SubjectMeta:
   description: Tapis Meta object for a VDJServer subject.
