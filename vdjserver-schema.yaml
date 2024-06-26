@@ -1317,16 +1317,6 @@ UserAccountCreation:
     - $ref: '#/UserAccount'
     - $ref: '#/Recaptcha'
 
-ProjectPermissionRequest:
-  description: Permissions request for project
-  type: object
-  required:
-    - project_uuid
-  properties:
-    project_uuid:
-      description: project related to the permissions.
-      type: string
-
 FilePostitRequest:
   description: Postit request for file
   type: object
@@ -1343,28 +1333,15 @@ FilePostitRequest:
       description: file path
       type: number
 
-UserPermission:
-  description: Permissions request for user
+ProjectPermissionRequest:
+  description: Project permissions request for user
   required:
     - username
   allOf:
-    - $ref: '#/ProjectPermissionRequest'
     - type: object
       properties:
         username:
           description: user to apply permissions
-          type: string
-
-MetadataPermission:
-  description: Permissions request for project metadata object
-  required:
-    - metadata_uuid
-  allOf:
-    - $ref: '#/ProjectPermissionRequest'
-    - type: object
-      properties:
-        metadata_uuid:
-          description: metadata object to apply permissions
           type: string
 
 FeedbackRequest:
