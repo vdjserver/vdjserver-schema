@@ -216,6 +216,17 @@ Repertoire:
             type: string
             nullable: true
 
+AIRRRepertoire:
+  description: VDJServer extension of the AIRR Repertoire object.
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/release-1.5/specs/airr-schema-openapi3.yaml#/Repertoire'
+#    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/airr-js/specs/airr-schema-openapi3.yaml#/Subject'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+
 Subject:
   description: VDJServer extension of the AIRR Subject object.
   allOf:
@@ -840,8 +851,13 @@ ADCProjectLoad:
   description: ADC project load.
   type: object
   required:
+    - projectUuid
     - collection
   properties:
+    projectUuid:
+      description: VDJServer uuid for project/study
+      type: string
+      nullable: false
     collection:
       description: Collection suffix.
       type: string
@@ -849,7 +865,7 @@ ADCProjectLoad:
     shouldLoad:
       description: Flag to indicate project should be loaded into ADC.
       type: boolean
-      default: false
+      default: true
     isLoaded:
       description: Flag to indicate project is completely loaded into ADC.
       type: boolean
@@ -866,7 +882,7 @@ ADCProjectLoad:
 ADCProjectLoadMeta:
   description: Tapis Meta object.
   x-vdjserver:
-    tapis_name: projectLoad
+    tapis_name: adc_project_load
   allOf:
     - $ref: '#/TapisMetaObject'
     - description: Project load into ADC.
@@ -879,9 +895,14 @@ ADCRearrangementLoad:
   description: ADC rearrangement load.
   type: object
   required:
+    - projectUuid
     - repertoire_id
     - collection
   properties:
+    projectUuid:
+      description: VDJServer uuid for project/study
+      type: string
+      nullable: false
     repertoire_id:
       description: Repertoire identifier for the rearrangements.
       type: string
@@ -901,7 +922,7 @@ ADCRearrangementLoad:
 ADCRearrangementLoadMeta:
   description: Tapis Meta object.
   x-vdjserver:
-    tapis_name: rearrangementLoad
+    tapis_name: adc_rearrangement_load
   allOf:
     - $ref: '#/TapisMetaObject'
     - description: Load rearrangements for project into ADC.
