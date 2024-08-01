@@ -984,11 +984,21 @@ ADCDownloadCacheStudy:
       type: boolean
       default: false
     archive_file:
-      description: File path to the cached study
-      type: string
+      anyOf:
+        - description: File path to the cached study
+          type: string
+        - description: Array of file paths to the cached study
+          type: array
+          items:
+            type: string
     download_url:
-      description: Tapis Postits public URL to download cache file
-      type: string
+      anyOf:
+        - description: Tapis Postits public URL to download cache file
+          type: string
+        - description: Array of Tapis Postits public URLs to download cache files
+          type: array
+          items:
+            type: string
 
 ADCDownloadCacheStudyMeta:
   description: Tapis Meta object.
@@ -1036,9 +1046,11 @@ ADCDownloadCacheRepertoire:
     archive_file:
       description: File path to the cached repertoire
       type: string
+      nullable: true
     download_url:
       description: Tapis Postits public URL to download cache file
       type: string
+      nullable: true
 
 ADCDownloadCacheRepertoireMeta:
   description: Tapis Meta object.
