@@ -795,12 +795,14 @@ ADCAsyncQuery:
     lrq_id:
       description: Tapis LRQ identifier
       type: string
+      nullable: true
     status:
       description: Query status
       type: string
       enum:
         - PENDING
         - SUBMITTED
+        - COUNTING
         - PROCESSING
         - FINISHED
         - ERROR
