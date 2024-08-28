@@ -364,24 +364,37 @@ UserAccount:
       nullable: true
     email:
       type: string
+      nullable: true
+    isEmailVerified:
+      type: boolean
+      default: false
     firstName:
       type: string
+      nullable: true
     lastName:
       type: string
+      nullable: true
     city:
       type: string
+      nullable: true
     state:
       type: string
+      nullable: true
     country:
       type: string
+      nullable: true
     affiliation:
       type: string
+      nullable: true
     disableJobEmail:
       type: boolean
+      default: false
     disableUserEmail:
       type: boolean
+      default: false
     disablePublishEmail:
       type: boolean
+      default: false
 
 UserAccountMeta:
   description: Tapis Meta object for a VDJServer user account.
@@ -550,6 +563,15 @@ ProjectFile:
       nullable: true
     url:
       type: string
+    pairedReadMetadataUuid:
+      type: string
+      nullable: true
+    readMetadataUuid:
+      type: string
+      nullable: true
+    qualityScoreMetadataUuid:
+      type: string
+      nullable: true
 # TODO: other properties to consider/integrate
 #   "type": 22,
 #   "name": 30949,
