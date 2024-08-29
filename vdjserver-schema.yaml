@@ -98,29 +98,16 @@ ProjectExtension:
 
 ProjectPermission:
   description: User permissions on project and its associated objects
-  type: array
-  nullable: false
-  items:
+  type: object
+  additionalProperties:
     type: object
-    required:
-      - username
-      - permission
     properties:
-      username:
-        description: Username for permissions
-        type: string
-        nullable: false
-      permission:
-        description: list of permissions
-        type: object
-        nullable: false
-        properties:
-          read:
-            description: read permission
-            type: boolean
-          write:
-            description: write permission
-            type: boolean
+      read:
+        description: read permission
+        type: boolean
+      write:
+        description: write permission
+        type: boolean
 
 
 Project:
