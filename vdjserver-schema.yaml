@@ -99,15 +99,18 @@ ProjectExtension:
 ProjectPermission:
   description: User permissions on project and its associated objects
   type: object
-  additionalProperties:
-    type: object
-    properties:
-      read:
-        description: read permission
-        type: boolean
-      write:
-        description: write permission
-        type: boolean
+  properties:
+    username:
+      type: string
+    permission:
+      type: object
+      properties:
+        read:
+          description: read permission
+          type: boolean
+        write:
+          description: write permission
+          type: boolean
 
 
 Project:
@@ -461,7 +464,9 @@ PrivateProjectMeta:
         value:
           $ref: '#/Project'
         permission:
-          $ref: '#/ProjectPermission'
+          type: array
+          items:
+            $ref: '#/ProjectPermission'
 
 PublicProjectMeta:
   description: Tapis Meta object for a VDJServer public project.
