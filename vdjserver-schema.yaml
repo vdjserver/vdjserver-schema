@@ -217,6 +217,16 @@ AIRRRepertoire:
         vdjserver:
           $ref: '#/CommonExtension'
 
+RepertoireGroup:
+  description: VDJServer extension of the AIRR RepertoireGroup object.
+  allOf:
+    - $ref: 'https://raw.githubusercontent.com/airr-community/airr-standards/release-1.5/specs/airr-schema-openapi3.yaml#/RepertoireGroup'
+    - description: VDJServer object container for extra attributes.
+      type: object
+      properties:
+        vdjserver:
+          $ref: '#/CommonExtension'
+
 Subject:
   description: VDJServer extension of the AIRR Subject object.
   allOf:
