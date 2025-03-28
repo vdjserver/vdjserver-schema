@@ -1285,6 +1285,17 @@ TaskDocument:
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
 
+AnalysisProperties:
+  description: Analysis Properties
+  type: object
+  properties:
+    workflow_name:
+      description: The workflow analysis name
+      type: string
+    workflow_mode:
+      description: The workflow analysis mode
+      type: string
+
 AnalysisDocument:
   description: Analysis workflow document
   type: object
@@ -1293,6 +1304,7 @@ AnalysisDocument:
   allOf:
     - $ref: '#/ProvDocument'
     - $ref: '#/TaskDocument'
+    - $ref: '#/AnalysisProperties'
 
 #
 # Objects for server side generation of visualizations
