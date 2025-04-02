@@ -503,6 +503,19 @@ RepertoireMeta:
         value:
           $ref: '#/Repertoire'
 
+RepertoireGroupMeta:
+  description: Tapis Meta object for a VDJServer repertoire group
+  x-vdjserver:
+    tapis_name: repertoire_group
+  type: object
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer repertoire group.
+      type: object
+      properties:
+        value:
+          $ref: '#/RepertoireGroup'
+
 SubjectMeta:
   description: Tapis Meta object for a VDJServer subject.
   x-vdjserver:
