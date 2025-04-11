@@ -1319,6 +1319,214 @@ AnalysisDocument:
     - $ref: '#/TaskDocument'
     - $ref: '#/AnalysisProperties'
 
+VDJPipeParameters:
+  description: VDJPipe Parameters
+  type: object
+  properties:
+    workflow_name:
+      description: The workflow analysis name
+      type: string
+    workflow_mode:
+      description: The workflow analysis mode
+      type: string
+    secondary_inputs_flag: 
+      description:
+      type: bool
+    job_files: 
+      description:
+      type: array
+      items: 
+        type: string
+    sequence_FASTQ: 
+      description:
+      type: array
+      items: 
+        type: string
+    sequence_FASTA:
+      description:
+      type: array
+      items: 
+        type: string
+    sequence_quality_files: 
+      description:
+      type: array
+      items: 
+        type: string
+    sequence_forward_paired_files: 
+      description:
+      type: array
+      items: 
+        type: string
+    sequence_reverse_paired_files: 
+      description:
+      type: array
+      items: 
+        type: string
+    forward_primer_file:
+      description:
+      type: string
+    reverse_primer_file:
+      description:
+      type: string
+    barcode_file:
+      description:
+      type: string
+    merge_minimum_score: 
+      description:
+      type: integer
+    pre_filter_statistics_flag: 
+      description:
+      type: boolean
+    filter_flag: 
+      description:
+      type: boolean
+    minimum_average_quality:
+      description:
+      type: number
+      default: 35
+    minimum_length: 
+      description:
+      type: integer
+      default: 0
+    maximum_homopolymer: 
+      description:
+      type: integer
+      default: 10
+    post_filter_statistics_flag: 
+      description:
+      type: boolean
+    barcode: 
+      description:
+      type: boolean
+    barcode_location: 
+      description:
+      type: string
+      enum: 
+        - forward
+        - reverse
+    barcode_discard: 
+      description:
+      type: boolean
+    barcode_generate_histogram: 
+      description:
+      type: boolean
+    barcode_maximum_mismatches: 
+      description:
+      type: integer
+    barcode_trim: 
+      description:
+      type: boolean
+    barcode_search_window: 
+      description:
+      type: integer
+    barcode_split_flag: 
+      description:
+      type: boolean
+    forward_primer: 
+      description:
+      type: boolean
+    forward_primer_maximum_mismatches: 
+      description:
+      type: integer
+    forward_primer_trim: 
+      description:
+      type: boolean
+    forward_primer_search_window: 
+      description:
+      type: integer
+    reverse_primer: 
+      description:
+      type: boolean
+    reverse_primer_maximum_mismatches: 
+      description:
+      type: integer
+    reverse_primer_trim: 
+      description:
+      type: boolean
+    reverse_primer_search_window: 
+      description:
+      type: integer
+    find_unique_flag: 
+      description:
+      type: boolean
+
+# IgBlastParameters:
+#   description: IgBlast Parameters
+#   type: object
+#   properties:
+#     workflow_name:
+#       description: The workflow analysis name
+#       type: string
+#     workflow_mode:
+#       description: The workflow analysis mode
+#       type: string
+#     secondary_inputs_flag: 
+#       description:
+#       type: bool
+#     job_files: 
+#       description:
+#       type: 
+#     query: 
+#       description:
+#       type: 
+#     query_files_metadata: 
+#       description:
+#       type: 
+#     species: 
+#       description: The species
+#       type: string
+#     strain: 
+#       description:
+#       type: string 
+#     ig_seqtype: 
+#       description:
+#       type: 
+#     domain_system: 
+#       description:
+#       type: 
+#     clonal_tool: 
+#       description:
+#       type: 
+#   allOf:
+#     - $ref: '#/ProvDocument'
+#     - $ref: '#/TaskDocument'
+#     - $ref: '#/AnalysisProperties'
+#     - $ref: '#/AnalysisDocument'
+
+# RepCalcParameters:
+#   description: RepCalc Parameters
+#   type: object
+#   properties:
+#     workflow_name:
+#       description: The workflow analysis name
+#       type: string
+#     workflow_mode:
+#       description: The workflow analysis mode
+#       type: string
+#     gene_segment_flag: 
+#       description:
+#       type: boolean
+#     CDR3_flag: 
+#       description:
+#       type: boolean
+#     diversity_flag: 
+#       description:
+#       type: boolean
+#     clonal_flag: 
+#       description:
+#       type: boolean
+#     lineage_flag: 
+#       description:
+#       type: boolean 
+#     mutational_flag: 
+#       description:
+#       type: boolean
+#   allOf:
+#     - $ref: '#/ProvDocument'
+#     - $ref: '#/TaskDocument'
+#     - $ref: '#/AnalysisProperties'
+#     - $ref: '#/AnalysisDocument'
+
 #
 # Objects for server side generation of visualizations
 #
