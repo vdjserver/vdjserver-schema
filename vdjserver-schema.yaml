@@ -1241,16 +1241,17 @@ StatisticsCacheRepertoireMeta:
 ProvDocument:
   description: PROV document
   type: object
-  x-vdjserver:
-    tapis_name: prov_document
   properties:
     entity:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/entity'
     agent:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/agent'
     activity:
+      type: object
       additionalProperties:
         type: object
         properties:
@@ -1263,18 +1264,23 @@ ProvDocument:
         additionalProperties:
           $ref: "https://www.w3.org/Submission/prov-json/schema#/definitions/attributeValues"
     used:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
     wasAttributedTo:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
     wasAssociatedWith:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
     wasDerivedFrom:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
     wasGeneratedBy:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
 
@@ -1283,18 +1289,23 @@ TaskDocument:
   type: object
   properties:
     uses:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
     isAttributedTo:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
     isAssociatedWith:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
     isDerivedFrom:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
     isGeneratedBy:
+      type: object
       additionalProperties:
         $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
 
@@ -1312,12 +1323,22 @@ AnalysisProperties:
 AnalysisDocument:
   description: Analysis workflow document
   type: object
-  x-vdjserver:
-    tapis_name: analysis_document
   allOf:
     - $ref: '#/ProvDocument'
     - $ref: '#/TaskDocument'
     - $ref: '#/AnalysisProperties'
+
+AnalysisDocumentMeta:
+  description: Tapis Meta object for a VDJServer analysis document.
+  x-vdjserver:
+    tapis_name: analysis_document
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer analysis document.
+      type: object
+      properties:
+        value:
+          $ref: '#/AnalysisDocument'
 
 VDJPipeParameters:
   description: VDJPipe Parameters
