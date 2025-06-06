@@ -1340,102 +1340,124 @@ AnalysisDocumentMeta:
         value:
           $ref: '#/AnalysisDocument'
 
+VDJPipeInputs:
+  description: VDJPipe Inputs
+  type: object
+  properties:
+    JobFiles: 
+      type: array
+      items: 
+        type: string
+    SequenceFASTQ: 
+      type: array
+      items: 
+        type: string
+    SequenceFASTA:
+      type: array
+      items: 
+        type: string
+    SequenceQualityFiles: 
+      type: array
+      items: 
+        type: string
+    SequenceForwardPairedFiles: 
+      type: array
+      items: 
+        type: string
+    SequenceReversePairedFiles: 
+      type: array
+      items: 
+        type: string
+    ForwardPrimerFile:
+      type: string
+    ReversePrimerFile:
+      type: string
+    BarcodeFile:
+      type: string
+
 VDJPipeParameters:
   description: VDJPipe Parameters
   type: object
   properties:
-    workflow_name:
-      description: The workflow analysis name
-      type: string
-    workflow_mode:
+    Workflow:
       description: The workflow analysis mode
       type: string
-    secondary_inputs_flag: 
+      default: paired
+    SecondaryInputsFlag: 
       type: boolean
-    job_files: 
-      type: array
-      items: 
-        type: string
-    sequence_FASTQ: 
-      type: array
-      items: 
-        type: string
-    sequence_FASTA:
-      type: array
-      items: 
-        type: string
-    sequence_quality_files: 
-      type: array
-      items: 
-        type: string
-    sequence_forward_paired_files: 
-      type: array
-      items: 
-        type: string
-    sequence_reverse_paired_files: 
-      type: array
-      items: 
-        type: string
-    forward_primer_file:
-      type: string
-    reverse_primer_file:
-      type: string
-    barcode_file:
-      type: string
-    merge_minimum_score: 
-      type: integer
-    pre_filter_statistics_flag: 
-      type: boolean
-    filter_flag: 
-      type: boolean
-    minimum_average_quality:
-      type: number
-      default: 35
-    minimum_length: 
-      type: integer
-      default: 0
-    maximum_homopolymer: 
+      default: false
+    MergeMinimumScore: 
       type: integer
       default: 10
-    post_filter_statistics_flag: 
+    PreFilterStatisticsFlag: 
       type: boolean
-    barcode: 
+      default: true
+    FilterFlag: 
       type: boolean
-    barcode_location: 
+      default: true
+    MinimumAverageQuality:
+      type: number
+      default: 35
+    MinimumLength: 
+      type: integer
+      default: 200
+    MaximumHomopolymer: 
+      type: integer
+      default: 10
+    PostFilterStatisticsFlag: 
+      type: boolean
+      default: true
+    Barcode: 
+      type: boolean
+      default: false
+    BarcodeLocation: 
       type: string
       enum: 
         - forward
         - reverse
-    barcode_discard: 
+    BarcodeDiscard: 
       type: boolean
-    barcode_generate_histogram: 
+    BarcodeGenerateHistogram: 
       type: boolean
-    barcode_maximum_mismatches: 
+      default: true
+    BarcodeMaximumMismatches: 
       type: integer
-    barcode_trim: 
+      default: 0
+    BarcodeTrim: 
       type: boolean
-    barcode_search_window: 
+    BarcodeSearchWindow: 
       type: integer
-    barcode_split_flag: 
+      default: 30
+    BarcodeSplitFlag: 
       type: boolean
-    forward_primer: 
+      default: true
+    ForwardPrimer: 
       type: boolean
-    forward_primer_maximum_mismatches: 
+      default: false
+    ForwardPrimerMaximumMismatches: 
       type: integer
-    forward_primer_trim: 
+      default: 0
+    ForwardPrimerTrim: 
       type: boolean
-    forward_primer_search_window: 
+      default: true
+    ForwardPrimerSearchWindow: 
       type: integer
-    reverse_primer: 
+      default: 30
+    ReversePrimer: 
       type: boolean
-    reverse_primer_maximum_mismatches: 
+      default: false
+    ReversePrimerMaximumMismatches: 
       type: integer
-    reverse_primer_trim: 
+      default: 0
+    ReversePrimerTrim: 
       type: boolean
-    reverse_primer_search_window: 
+      default: true
+    ReversePrimerSearchWindow: 
       type: integer
-    find_unique_flag: 
+      default: 30
+    FindUniqueFlag: 
       type: boolean
+      default: true
 
 # IgBlastParameters:
 #   description: IgBlast Parameters
