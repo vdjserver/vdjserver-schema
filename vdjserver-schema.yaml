@@ -1261,6 +1261,14 @@ ProvDocument:
           "prov:endTime":
             type: string
             format: date-time
+          "vdjserver:job":
+            type: string
+          "vdjserver:job:timeMultiplier":
+            type: integer
+            default: 1
+          "vdjserver:job:nodeCount":
+            type: integer
+            default: 1
         additionalProperties:
           $ref: "https://www.w3.org/Submission/prov-json/schema#/definitions/attributeValues"
     used:
@@ -1318,6 +1326,19 @@ AnalysisProperties:
       type: string
     workflow_mode:
       description: The workflow analysis mode
+      type: string
+    status:
+      description: Status of the analysis tasks
+      type: string
+      default: SUBMITTED
+      enum:
+        - SUBMITTED
+        - STARTED
+        - FINISHED
+        - CANCELLED
+        - FAILED
+    status_message:
+      description: Status message
       type: string
 
 AnalysisDocument:
