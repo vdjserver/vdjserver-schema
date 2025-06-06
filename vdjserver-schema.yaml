@@ -1687,22 +1687,8 @@ ErrorTelemetry:
 
 AnalysisRequest:
   description: Request execution of an analysis workflow
-  type: object
-  x-vdjserver:
-    tapis_name: analysis_request
-  required:
-    - workflow
-  properties:
-    workflow:
-      $ref: '#/AnalysisDocument'
-    audit_only:
-      description: Simulates execution of workflow for validation, assumes jobs run correctly but does not execute them.
-      type: boolean
-      nullable: true
-    use_alternate_app:
-      description: If exact Tapis app is not available because execution system is unavailable, try similar app on another execution system.
-      type: boolean
-      nullable: true
+  allOf:
+    - $ref: '#/AnalysisDocument'
 
 VisualizationRequest:
   description: Request generation of data visualization
