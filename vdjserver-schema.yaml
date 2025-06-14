@@ -356,6 +356,7 @@ UserAccount:
     - username
     - password
     - email
+  additionalProperties: false
   properties:
     username:
       type: string
