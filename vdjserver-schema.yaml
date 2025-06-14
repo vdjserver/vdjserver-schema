@@ -395,6 +395,9 @@ UserAccount:
     disablePublishEmail:
       type: boolean
       default: false
+    showArchivedProjects:
+      type: boolean
+      default: false
 
 UserAccountMeta:
   description: Tapis Meta object for a VDJServer user account.
