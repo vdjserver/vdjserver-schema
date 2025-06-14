@@ -482,6 +482,14 @@ PrivateProjectMeta:
           items:
             $ref: '#/ProjectPermission'
 
+ArchivedProjectMeta:
+  description: Tapis Meta object for a VDJServer archived project.
+  x-vdjserver:
+    tapis_name: archived_project
+  allOf:
+    - $ref: '#/PrivateProjectMeta'
+    - description: VDJServer archived project is still a private project.
+
 PublicProjectMeta:
   description: Tapis Meta object for a VDJServer public project.
   x-vdjserver:
