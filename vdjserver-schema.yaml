@@ -1443,6 +1443,8 @@ VDJPipeParameters:
     Barcode: 
       type: boolean
       default: false
+    BarcodeFile:
+      type: string
     BarcodeLocation: 
       type: string
       enum: 
@@ -1450,14 +1452,16 @@ VDJPipeParameters:
         - reverse
     BarcodeDiscard: 
       type: boolean
+      default: true
     BarcodeGenerateHistogram: 
       type: boolean
-      default: true
+      default: false
     BarcodeMaximumMismatches: 
       type: integer
       default: 0
     BarcodeTrim: 
       type: boolean
+      default: true
     BarcodeSearchWindow: 
       type: integer
       default: 30
@@ -1467,6 +1471,8 @@ VDJPipeParameters:
     ForwardPrimer: 
       type: boolean
       default: false
+    ForwardPrimerFile:
+      type: string
     ForwardPrimerMaximumMismatches: 
       type: integer
       default: 0
@@ -1479,6 +1485,8 @@ VDJPipeParameters:
     ReversePrimer: 
       type: boolean
       default: false
+    ReversePrimerFile:
+      type: string
     ReversePrimerMaximumMismatches: 
       type: integer
       default: 0
@@ -1489,6 +1497,154 @@ VDJPipeParameters:
       type: integer
       default: 30
     FindUniqueFlag: 
+      type: boolean
+      default: true
+
+PrestoInputs:
+  description: pRESTO Inputs
+  type: object
+  properties:
+    JobFiles: 
+      type: array
+      items: 
+        type: string
+    SequenceFiles: 
+      type: array
+      items: 
+        type: string
+    SequenceForwardPairedFiles: 
+      type: array
+      items: 
+        type: string
+    SequenceReversePairedFiles: 
+      type: array
+      items: 
+        type: string
+    ForwardPrimerFile:
+      type: string
+    ReversePrimerFile:
+      type: string
+    BarcodeFile:
+      type: string
+
+PrestoParameters:
+  description: pRESTO Parameters
+  type: object
+  properties:
+    Workflow:
+      description: The workflow analysis mode
+      type: string
+      enum:
+        - paired
+        - single
+      default: paired
+    SequenceFileTypes:
+      description: The sequence file type
+      type: string
+      enum:
+        - illumina
+      default: illumina
+    PreFilterStatisticsFlag: 
+      type: boolean
+      default: true
+    FilterFlag: 
+      type: boolean
+      default: true
+    MinimumQuality:
+      type: number
+      default: 35
+    MinimumLength: 
+      type: integer
+      default: 200
+    PostFilterStatisticsFlag: 
+      type: boolean
+      default: true
+
+    Barcode: 
+      type: boolean
+      default: false
+    BarcodeFile: # individual input files are parameters too
+      type: string
+    BarcodeMaxError: 
+      type: number
+      default: 0.1
+    BarcodeStartPosition: 
+      type: integer
+      default: 0
+    BarcodeSplitFlag: 
+      type: boolean
+      default: true
+
+    UMIConsensus: 
+      type: boolean
+      default: false
+    UMIMaxError: 
+      type: number
+      default: 0.1
+    UMIMaxGap: 
+      type: number
+      default: 0.5
+    UMIMinFrequency: 
+      type: number
+      default: 0.6
+
+    ForwardPrimerFlag: 
+      type: boolean
+      default: false
+    ForwardPrimer: 
+      type: string
+      enum:
+        - score
+        - align
+        - none
+      default: none
+    ForwardPrimerFile:  # individual input files are parameters too
+      type: string
+    ForwardPrimerUMI: 
+      type: boolean
+      default: false
+    ForwardPrimerMaxError: 
+      type: number
+      default: 0.3
+    ForwardPrimerMaxLength: 
+      type: integer
+      default: 50
+    ForwardPrimerStartPosition: 
+      type: integer
+      default: 0
+
+    ReversePrimerFlag: 
+      type: boolean
+      default: false
+    ReversePrimer: 
+      type: string
+      enum:
+        - score
+        - align
+        - none
+      default: none
+    ReversePrimerFile:  # individual input files are parameters too
+      type: string
+    ReversePrimerUMI: 
+      type: boolean
+      default: false
+    ReversePrimerMaxError: 
+      type: number
+      default: 0.3
+    ReversePrimerMaxLength: 
+      type: integer
+      default: 50
+    ReversePrimerStartPosition: 
+      type: integer
+      default: 0
+
+    FindUniqueFlag: 
+      type: boolean
+      default: true
+    FindUniqueMaxNucleotides: 
+      type: integer
+      default: 20
+    FindUniqueExclude: 
       type: boolean
       default: true
 
