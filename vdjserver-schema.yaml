@@ -1648,6 +1648,85 @@ PrestoParameters:
       type: boolean
       default: true
 
+TakaraBioUMIInputs:
+  description: Takara Bio UMI Inputs
+  type: object
+  properties:
+    JobFiles:
+      type: array
+      items:
+        type: string
+    SequenceFiles:
+      type: array
+      items:
+        type: string
+    SequenceForwardPairedFiles:
+      type: array
+      items:
+        type: string
+    SequenceReversePairedFiles:
+      type: array
+      items:
+        type: string
+
+TakaraBioUMIParameters:
+  description: Takara Bio UMI Parameters
+  type: object
+  properties:
+    Workflow:
+      description: The workflow analysis mode
+      type: string
+      enum:
+        - takara_bio_umi_human_ig
+        - takara_bio_umi_human_tr
+        - takara_bio_umi_mouse_ig
+        - takara_bio_umi_mouse_tr
+      default: takara_bio_umi_human_tr
+    SequenceFileTypes:
+      description: The sequence file type
+      type: string
+      enum:
+        - illumina
+      default: illumina
+    PreFilterStatisticsFlag:
+      type: boolean
+      default: true
+    FilterFlag:
+      type: boolean
+      default: true
+    MinimumQuality:
+      type: number
+      default: 35
+    MinimumLength:
+      type: integer
+      default: 200
+    PostFilterStatisticsFlag:
+      type: boolean
+      default: true
+
+    UMIConsensus:
+      type: boolean
+      default: false
+    UMIMaxError:
+      type: number
+      default: 0.1
+    UMIMaxGap:
+      type: number
+      default: 0.5
+    UMIMinFrequency:
+      type: number
+      default: 0.6
+
+    FindUniqueFlag:
+      type: boolean
+      default: true
+    FindUniqueMaxNucleotides:
+      type: integer
+      default: 0
+    FindUniqueExclude:
+      type: boolean
+      default: true
+
 # IgBlastParameters:
 #   description: IgBlast Parameters
 #   type: object
