@@ -1704,9 +1704,19 @@ TakaraBioUMIParameters:
       type: boolean
       default: true
 
+    ReversePrimerFlag: 
+      type: boolean
+      default: true
+    ReversePrimerMaxError: 
+      type: number
+      default: 0.5
+    ReversePrimerMaxLength: 
+      type: integer
+      default: 70
+
     UMIConsensus:
       type: boolean
-      default: false
+      default: true
     UMIMaxError:
       type: number
       default: 0.1
