@@ -1780,39 +1780,47 @@ TakaraBioUMIParameters:
 #     - $ref: '#/AnalysisProperties'
 #     - $ref: '#/AnalysisDocument'
 
-# RepCalcParameters:
-#   description: RepCalc Parameters
-#   type: object
-#   properties:
-#     workflow_name:
-#       description: The workflow analysis name
-#       type: string
-#     workflow_mode:
-#       description: The workflow analysis mode
-#       type: string
-#     gene_segment_flag: 
-#       description:
-#       type: boolean
-#     CDR3_flag: 
-#       description:
-#       type: boolean
-#     diversity_flag: 
-#       description:
-#       type: boolean
-#     clonal_flag: 
-#       description:
-#       type: boolean
-#     lineage_flag: 
-#       description:
-#       type: boolean 
-#     mutational_flag: 
-#       description:
-#       type: boolean
-#   allOf:
-#     - $ref: '#/ProvDocument'
-#     - $ref: '#/TaskDocument'
-#     - $ref: '#/AnalysisProperties'
-#     - $ref: '#/AnalysisDocument'
+RepCalcInputs:
+  description: RepCalc Inputs
+  type: object
+  properties:
+    JobFiles:
+      type: array
+      items:
+        type: string
+    AIRRFiles:
+      type: array
+      items:
+        type: string
+
+RepCalcParameters:
+  description: RepCalc Parameters
+  type: object
+  properties:
+    GeneSegmentFlag:
+      description:
+      type: boolean
+      default: true
+    CDR3Flag:
+      description:
+      type: boolean
+      default: true
+    DiversityFlag:
+      description:
+      type: boolean
+      default: true
+    ClonalFlag:
+      description:
+      type: boolean
+      default: true
+    LineageFlag:
+      description:
+      type: boolean
+      default: true
+    MutationalFlag:
+      description:
+      type: boolean
+      default: true
 
 #
 # Objects for server side generation of visualizations
