@@ -840,8 +840,18 @@ ADCAsyncQuery:
       nullable: true
     notification:
       description: Query status notification URL
-      type: string
+      type: object
       nullable: true
+      properties:
+        url:
+          type: string
+          nullable: false
+        method:
+          type: string
+          nullable: false
+          enum:
+            - GET
+            - POST
     body:
       description: Incoming query body
       type: object
@@ -1038,6 +1048,7 @@ ADCDownloadCacheStudy:
       anyOf:
         - description: File path to the cached study
           type: string
+          nullable: true
         - description: Array of file paths to the cached study
           type: array
           items:
@@ -1046,6 +1057,7 @@ ADCDownloadCacheStudy:
       anyOf:
         - description: Tapis Postits public URL to download cache file
           type: string
+          nullable: true
         - description: Array of Tapis Postits public URLs to download cache files
           type: array
           items:
