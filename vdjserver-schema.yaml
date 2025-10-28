@@ -1749,48 +1749,42 @@ TakaraBioUMIParameters:
       type: boolean
       default: true
 
-# IgBlastParameters:
-#   description: IgBlast Parameters
-#   type: object
-#   properties:
-#     workflow_name:
-#       description: The workflow analysis name
-#       type: string
-#     workflow_mode:
-#       description: The workflow analysis mode
-#       type: string
-#     secondary_inputs_flag: 
-#       description:
-#       type: bool
-#     job_files: 
-#       description:
-#       type: 
-#     query: 
-#       description:
-#       type: 
-#     query_files_metadata: 
-#       description:
-#       type: 
-#     species: 
-#       description: The species
-#       type: string
-#     strain: 
-#       description:
-#       type: string 
-#     ig_seqtype: 
-#       description:
-#       type: 
-#     domain_system: 
-#       description:
-#       type: 
-#     clonal_tool: 
-#       description:
-#       type: 
-#   allOf:
-#     - $ref: '#/ProvDocument'
-#     - $ref: '#/TaskDocument'
-#     - $ref: '#/AnalysisProperties'
-#     - $ref: '#/AnalysisDocument'
+
+IgBlastInputs:
+  description: IgBlast Input Files
+  type: object
+  properties:
+    JobFiles:
+      type: array
+      items:
+        type: string
+      description: Optional configuration or metadata files for the job
+    query:
+      type: array
+      items:
+        type: string
+      description: Input sequence files (FASTA or FASTQ) for IgBlast analysis
+
+IgBlastParameters:
+  description: IgBlast Runtime Parameters
+  type: object
+  properties:
+    species:
+      type: string
+      description: Species name used for IgBlast alignment (e.g., human, mouse)
+    strain:
+      type: string
+      description: Optional strain information if available
+    locus:
+      type: string
+      enum:
+        - IG
+        - TR
+      description: Gene locus type for alignment
+    germlineDb:
+      type: string
+      description: Selected germline database for alignment.
+      default: db.2019.01.23.tgz
 
 RepCalcInputs:
   description: RepCalc Inputs
