@@ -1810,27 +1810,21 @@ RepCalcParameters:
   type: object
   properties:
     GeneSegmentFlag:
-      description:
       type: boolean
       default: true
     CDR3Flag:
-      description:
       type: boolean
       default: true
     DiversityFlag:
-      description:
       type: boolean
       default: true
     ClonalFlag:
-      description:
       type: boolean
       default: true
     LineageFlag:
-      description:
       type: boolean
       default: true
     MutationalFlag:
-      description:
       type: boolean
       default: true
 
