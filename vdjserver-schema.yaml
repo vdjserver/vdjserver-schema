@@ -1753,14 +1753,19 @@ TakaraBioUMIParameters:
 IgBlastInputs:
   description: IgBlast Input Files
   type: object
+  required:
+    - JobFiles
+    - query
   properties:
     JobFiles:
       type: array
+      nullable: true
       items:
         type: string
       description: Optional configuration or metadata files for the job
     query:
       type: array
+      nullable: true
       items:
         type: string
       description: Input sequence files (FASTA or FASTQ) for IgBlast analysis
@@ -1772,19 +1777,27 @@ IgBlastParameters:
     species:
       type: string
       description: Species name used for IgBlast alignment (e.g., human, mouse)
+      default: mouse
+      enum:
+        - human
+        - mouse
+        - macaque
     strain:
       type: string
       description: Optional strain information if available
     locus:
       type: string
+      description: Gene locus type for alignment
       enum:
         - IG
         - TR
-      description: Gene locus type for alignment
     germlineDb:
       type: string
       description: Selected germline database for alignment.
-      default: db.2019.01.23.tgz
+      default: db.2019.01.23
+      enum:
+        - db.2019.01.23
+        - db.2025.10.22
 
 RepCalcInputs:
   description: RepCalc Inputs
