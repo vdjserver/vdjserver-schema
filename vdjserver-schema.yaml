@@ -1351,6 +1351,9 @@ AnalysisProperties:
     workflow_mode:
       description: The workflow analysis mode
       type: string
+    workflow_description:
+      description: The workflow description
+      type: string
     status:
       description: Status of the analysis tasks
       type: string
