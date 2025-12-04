@@ -26,7 +26,7 @@
 Info:
     title: VDJServer Schema
     description: Schema definitions for VDJServer standards objects
-    version: "2.0"
+    version: "2.3"
     contact:
         name: VDJServer
         url: https://vdjserver.org
