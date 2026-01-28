@@ -1819,6 +1819,23 @@ RepCalcParameters:
   description: RepCalc Parameters
   type: object
   properties:
+    species:
+      type: string
+      description: Species name used by IgBlast alignment (e.g., human, mouse)
+      default: human
+      enum:
+        - human
+        - mouse
+        - macaque
+    strain:
+      type: string
+      description: Optional strain information if available
+    locus:
+      type: string
+      description: Gene locus type used by IgBlast alignment
+      enum:
+        - IG
+        - TR
     GeneSegmentFlag:
       type: boolean
       default: true
