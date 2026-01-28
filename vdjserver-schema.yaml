@@ -26,7 +26,7 @@
 Info:
     title: VDJServer Schema
     description: Schema definitions for VDJServer standards objects
-    version: "2.3"
+    version: "2.4"
     contact:
         name: VDJServer
         url: https://vdjserver.org
@@ -1269,11 +1269,11 @@ ProvDocument:
     entity:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/entity'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/entity'
     agent:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/agent'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/agent'
     activity:
       type: object
       additionalProperties:
@@ -1294,27 +1294,27 @@ ProvDocument:
             type: integer
             default: 1
         additionalProperties:
-          $ref: "https://www.w3.org/Submission/prov-json/schema#/definitions/attributeValues"
+          $ref: "https://www.w3.org/submissions/prov-json/schema#/definitions/attributeValues"
     used:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/usage'
     wasAttributedTo:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/attribution'
     wasAssociatedWith:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/association'
     wasDerivedFrom:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/derivation'
     wasGeneratedBy:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/generation'
 
 TaskDocument:
   description: Task document
@@ -1323,23 +1323,23 @@ TaskDocument:
     uses:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/usage'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/usage'
     isAttributedTo:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/attribution'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/attribution'
     isAssociatedWith:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/association'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/association'
     isDerivedFrom:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/derivation'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/derivation'
     isGeneratedBy:
       type: object
       additionalProperties:
-        $ref: 'https://www.w3.org/Submission/prov-json/schema#/definitions/generation'
+        $ref: 'https://www.w3.org/submissions/prov-json/schema#/definitions/generation'
 
 AnalysisProperties:
   description: Analysis Properties
