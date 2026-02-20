@@ -651,25 +651,17 @@ ProjectJobFile:
     - projectUuid
     - jobUuid
     - name
-  properties:
-    projectUuid:
-      type: string
-    jobUuid:
-      type: string
-    name:
-      type: string
-    length:
-      type: number
-# TODO: other properties to consider/integrate
-#   "fileType": 363423,
-#   "isDeleted": 363423,
-#   "privateAttributes": 44,
-#   "publicAttributes": 363423,
-#   "readDirection": 363379,
-#   "relativeArchivePath": 363300,
-#   "jobName": 363379,
-#   "pairedReadMetadataUuid": 14,
-#   "showInProjectData": 356684
+  allOf:
+    - description: VDJServer project file.
+      type: object
+      properties:
+        project_uuid:
+          type: string
+        analysis_uuid:
+          type: string
+        job_uuid:
+          type: string
+    - $ref: '#/ProjectFile'
 
 ProjectJobFileMeta:
   description: Tapis Meta object for a VDJServer project job file.
@@ -1776,6 +1768,10 @@ IgBlastInputs:
 IgBlastParameters:
   description: IgBlast Runtime Parameters
   type: object
+  required:
+    - species
+    - locus
+    - germline_db
   properties:
     species:
       type: string
@@ -1791,16 +1787,14 @@ IgBlastParameters:
     locus:
       type: string
       description: Gene locus type for alignment
+      default: IG
       enum:
         - IG
         - TR
-    germlineDb:
+    germline_db:
       type: string
       description: Selected germline database for alignment.
-      default: db.2019.01.23
-      enum:
-        - db.2019.01.23
-        - db.2025.10.22
+      default: db.2026.01.12
 
 RepCalcInputs:
   description: RepCalc Inputs
