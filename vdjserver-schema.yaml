@@ -1830,6 +1830,10 @@ RepCalcParameters:
       enum:
         - IG
         - TR
+    germline_db:
+      type: string
+      description: Selected germline database for alignment.
+      default: db.2026.01.12
     GeneSegmentFlag:
       type: boolean
       default: true
