@@ -1359,6 +1359,10 @@ AnalysisProperties:
     status_message:
       description: Status message
       type: string
+    primary:
+      description: primary analysis for AIRR data processing
+      type: boolean
+      default: false
 
 AnalysisDocument:
   description: Analysis workflow document
