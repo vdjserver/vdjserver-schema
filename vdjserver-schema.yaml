@@ -1800,6 +1800,48 @@ IgBlastParameters:
       description: Selected germline database for alignment.
       default: db.2026.01.12
 
+TILDEInputs:
+  description: TILDE Inputs
+  type: object
+  properties:
+    JobFiles:
+      type: array
+      items:
+        type: string
+    AIRRFiles:
+      type: array
+      items:
+        type: string
+
+TILDEParameters:
+  description: TILDE Parameters
+  type: object
+  properties:
+    species:
+      type: string
+      description: Species for input data
+      default: human
+      enum:
+        - human
+    strain:
+      type: string
+      description: Optional strain information if available
+    locus:
+      type: string
+      description: Gene locus for input data
+      enum:
+        - IG
+        - TR
+    germline_db:
+      type: string
+      description: Germline database for input data
+    ReceptorMatchFlag:
+      type: boolean
+      default: true
+    EpitopeMatchFlag:
+      type: boolean
+      default: true
+
 RepCalcInputs:
   description: RepCalc Inputs
   type: object
