@@ -1800,6 +1800,58 @@ IgBlastParameters:
       description: Selected germline database for alignment.
       default: db.2026.01.12
 
+
+CellRangerInputs:
+  description: Cell Ranger Input Files
+  type: object
+  required:
+    - JobFiles
+    - query
+  properties:
+    JobFiles:
+      type: array
+      nullable: true
+      items:
+        type: string
+      description: Optional configuration or metadata files for the job
+    query:
+      type: array
+      nullable: true
+      items:
+        type: string
+      description: Input sequence files (FASTA or FASTQ) for Cell Ranger analysis
+
+CellRangerParameters:
+  description: Cell Ranger Runtime Parameters
+  type: object
+  required:
+    - species
+    - locus
+    - germline_db
+  properties:
+    species:
+      type: string
+      description: Species name used for IgBlast alignment (e.g., human, mouse)
+      default: human
+      enum:
+        - human
+        - mouse
+        - macaque
+    strain:
+      type: string
+      description: Optional strain information if available
+    locus:
+      type: string
+      description: Gene locus type for alignment
+      default: IG
+      enum:
+        - IG
+        - TR
+    germline_db:
+      type: string
+      description: Selected germline database for alignment.
+      default: db.2026.01.12
+
 TILDEInputs:
   description: TILDE Inputs
   type: object
