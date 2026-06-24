@@ -1805,21 +1805,17 @@ CellRangerInputs:
   description: Cell Ranger Input Files
   type: object
   required:
-    - JobFiles
-    - query
+    - ForwardPairedFiles
+    - ReversePairedFiles
   properties:
-    JobFiles:
+    ForwardPairedFiles:
       type: array
-      nullable: true
       items:
         type: string
-      description: Optional configuration or metadata files for the job
-    query:
+    ReversePairedFiles:
       type: array
-      nullable: true
       items:
         type: string
-      description: Input sequence files (FASTA or FASTQ) for Cell Ranger analysis
 
 CellRangerParameters:
   description: Cell Ranger Runtime Parameters
@@ -1827,7 +1823,8 @@ CellRangerParameters:
   required:
     - species
     - locus
-    - germline_db
+    - germline_db_TR
+    - germline_db_IG
   properties:
     species:
       type: string
@@ -1840,16 +1837,13 @@ CellRangerParameters:
     strain:
       type: string
       description: Optional strain information if available
-    locus:
+    germline_db_TR:
       type: string
-      description: Gene locus type for alignment
-      default: IG
-      enum:
-        - IG
-        - TR
-    germline_db:
+      description: Selected TCR germline database for alignment.
+      default: db.2019.01.23
+    germline_db_IG:
       type: string
-      description: Selected germline database for alignment.
+      description: Selected IG germline database for alignment.
       default: db.2026.01.12
 
 TILDEInputs:
