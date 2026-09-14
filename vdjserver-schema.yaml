@@ -1779,15 +1779,8 @@ IgBlastParameters:
   properties:
     species:
       type: string
-      description: Species name used for IgBlast alignment (e.g., human, mouse)
-      default: human
-      enum:
-        - human
-        - mouse
-        - macaque
-    strain:
-      type: string
-      description: Optional strain information if available
+      description: Species ID used for IgBlast alignment
+      default: NCBITAXON:9606
     locus:
       type: string
       description: Gene locus type for alignment
@@ -1798,7 +1791,7 @@ IgBlastParameters:
     germline_db:
       type: string
       description: Selected germline database for alignment.
-      default: db.2026.01.12
+      default: db.2026.09.10
 
 
 CellRangerInputs:
