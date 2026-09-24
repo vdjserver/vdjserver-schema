@@ -1821,12 +1821,8 @@ CellRangerParameters:
   properties:
     species:
       type: string
-      description: Species name used for IgBlast alignment (e.g., human, mouse)
-      default: human
-      enum:
-        - human
-        - mouse
-        - macaque
+      description: Species ID used for IgBlast alignment
+      default: NCBITAXON:9606
     strain:
       type: string
       description: Optional strain information if available
@@ -1837,7 +1833,7 @@ CellRangerParameters:
     germline_db_IG:
       type: string
       description: Selected IG germline database for alignment.
-      default: db.2026.01.12
+      default: db.2026.09.10
 
 TILDEInputs:
   description: TILDE Inputs
