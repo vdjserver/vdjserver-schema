@@ -399,6 +399,9 @@ UserAccount:
     showArchivedProjects:
       type: boolean
       default: false
+    showArchivedAnalyses:
+      type: boolean
+      default: false
 
 UserAccountMeta:
   description: Tapis Meta object for a VDJServer user account.
@@ -1376,6 +1379,18 @@ AnalysisDocumentMeta:
   description: Tapis Meta object for a VDJServer analysis document.
   x-vdjserver:
     tapis_name: analysis_document
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer analysis document.
+      type: object
+      properties:
+        value:
+          $ref: '#/AnalysisDocument'
+
+ArchivedAnalysisDocumentMeta:
+  description: Tapis Meta object for an archived analysis document.
+  x-vdjserver:
+    tapis_name: archived_analysis
   allOf:
     - $ref: '#/TapisMetaObject'
     - description: VDJServer analysis document.
