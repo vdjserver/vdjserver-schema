@@ -1807,6 +1807,10 @@ IgBlastParameters:
       type: string
       description: Selected germline database for alignment.
       default: db.2026.09.10
+    clonal_assignment:
+      type: boolean
+      description: Flag to enable/disable clonal assignment.
+      default: true
 
 
 CellRangerInputs:
