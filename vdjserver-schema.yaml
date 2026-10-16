@@ -1826,13 +1826,16 @@ CellRangerParameters:
     strain:
       type: string
       description: Optional strain information if available
-    germline_db_TR:
+    locus:
       type: string
-      description: Selected TCR germline database for alignment.
-      default: db.2019.01.23
-    germline_db_IG:
+      description: Gene locus type for alignment
+      default: IG
+      enum:
+        - IG
+        - TR
+    germline_db:
       type: string
-      description: Selected IG germline database for alignment.
+      description: Selected germline database for alignment.
       default: db.2026.09.10
 
 TILDEInputs:
