@@ -399,6 +399,9 @@ UserAccount:
     showArchivedProjects:
       type: boolean
       default: false
+    showArchivedAnalyses:
+      type: boolean
+      default: false
 
 UserAccountMeta:
   description: Tapis Meta object for a VDJServer user account.
@@ -1384,6 +1387,18 @@ AnalysisDocumentMeta:
         value:
           $ref: '#/AnalysisDocument'
 
+ArchivedAnalysisDocumentMeta:
+  description: Tapis Meta object for an archived analysis document.
+  x-vdjserver:
+    tapis_name: archived_analysis
+  allOf:
+    - $ref: '#/TapisMetaObject'
+    - description: VDJServer analysis document.
+      type: object
+      properties:
+        value:
+          $ref: '#/AnalysisDocument'
+
 VDJPipeInputs:
   description: VDJPipe Inputs
   type: object
@@ -1792,6 +1807,10 @@ IgBlastParameters:
       type: string
       description: Selected germline database for alignment.
       default: db.2026.09.10
+    clonal_assignment:
+      type: boolean
+      description: Flag to enable/disable clonal assignment.
+      default: true
 
 
 CellRangerInputs:
